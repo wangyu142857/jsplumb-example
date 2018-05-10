@@ -1,6 +1,6 @@
 # flow-chart
 
-> A Vue.js project
+> Use Jsplumb draw flow chart
 
 ## Build Setup
 
@@ -28,3 +28,6 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+> [Jsplumb官网 https://jsplumbtoolkit.com](https://jsplumbtoolkit.com)  
+
+> [Jsplumb github https://github.com/jsplumb/jsplumb](https://github.com/jsplumb/jsplumb)
