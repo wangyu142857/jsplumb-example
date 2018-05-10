@@ -3,8 +3,15 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// element-ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+// style
+import './style/index.scss';
+import './style/jsplumb-demo.scss';
+// jsplumb
+import 'jsplumb/dist/js/jsplumb.min.js';
+import 'jsplumb/dist/css/jsplumbtoolkit-defaults.css';
 
 Vue.use(ElementUI);
 

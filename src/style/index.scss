@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.el-header,
+.el-footer {
+  background-color: #545c64;
+  color: #333;
+}
+
+.el-aside {
+  background-color: #D3DCE6;
+  color: #333;
+}
+
+.el-main {
+  background-color: #E9EEF3;
+  color: #333;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  .main {
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+
+
