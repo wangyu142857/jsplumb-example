@@ -37,10 +37,10 @@ ConnectionOverlays  : [],                           // 连接器覆盖
 Connector : "Bezier",                               // 连接器
 Container : null,                                   // 容器
 DoNotThrowErrors  : false,                          // 
-DragOptions : { },                                  // 用于配置可拖动的任何元素的默认选项 ```jsPlumb.draggable```
+DragOptions : { },                                  // 用于配置可拖动的任何元素的默认选项 jsPlumb.draggable
 DropOptions : { },                                  // 用于配置任何目标端点的可放置行为的默认选项
 Endpoint : "Dot",                                   // 默认的端点定义。无论何时添加端点或以其他方式创建端点，并且jsPlumb未被赋予任何明确的端点定义。
-Endpoints : [ null, null ],                         // 默认源和目标端点定义 ```jsPlumb.connect```
+Endpoints : [ null, null ],                         // 默认源和目标端点定义 jsPlumb.connect
 EndpointOverlays : [ ],                             // 每个端点的默认覆盖
 EndpointStyle : { fill : "#456" },                  // 端点样式
 EndpointStyles : [ null, null ],                    // 源和目标端点样式
