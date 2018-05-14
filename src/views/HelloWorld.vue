@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <h1>{{msg}}</h1>
+    <div class="block">
+    </div>
   </div>
 </template>
 
@@ -9,21 +11,28 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to My Vue.js + JsPlumb.js App"
+      msg: "Welcome to My Vue.js + JsPlumb.js App",
+      currentPage: 5
     };
   },
-  mounted() {
-    
+  mounted() {},
+  methods: {
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    }
   }
 };
 </script>
 <style scoped>
-h1{
+h1 {
   line-height: 160px;
   text-align: center;
-  color: #41B883;
+  color: #41b883;
   font-weight: normal;
-  font-size: 48px;
+  font-size: 42px;
 }
 </style>
 

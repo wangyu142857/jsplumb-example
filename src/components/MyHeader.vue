@@ -7,6 +7,7 @@
 				<template slot="title">官方demo</template>
 				<el-menu-item index="/flow-chart">FlowChart</el-menu-item>
 				<el-menu-item index="/chart">Hierarchical Chart</el-menu-item>
+				<el-menu-item index="/state-machine">state machine</el-menu-item>
 			</el-submenu>
 			<el-submenu index="3">
 				<template slot="title">my demo</template>

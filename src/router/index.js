@@ -5,6 +5,7 @@ import DemoDrag from '@/views/DemoDrag'
 // official-demos
 import Chart from '@/views/official-demos/Chart'
 import FlowChart from '@/views/official-demos/FlowChart'
+import StateMachine from '@/views/official-demos/StateMachine'
 
 // my-demos
 import MyHello from '@/views/my-demos/MyHello'
@@ -29,6 +30,11 @@ export default new Router({
       path: '/flow-chart',
       name: 'FlowChart',
       component: FlowChart
+    },
+    {
+      path: '/state-machine',
+      name: 'StateMachine',
+      component: StateMachine
     },
     // my-demos
     {

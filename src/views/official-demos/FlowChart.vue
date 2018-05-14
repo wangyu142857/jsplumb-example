@@ -267,9 +267,7 @@ export default {
 
 <style scoped>
 
-.jtk-demo-canvas {
-  height: 100%;
-}
+
 
 .flowchart-demo .window {
   border: 1px solid #346789;
