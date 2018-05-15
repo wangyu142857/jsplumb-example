@@ -4,7 +4,7 @@
       <el-header>
         <my-header></my-header>
       </el-header>
-      <el-main class="main">
+      <el-main class="container">
         <router-view></router-view>
       </el-main>
       

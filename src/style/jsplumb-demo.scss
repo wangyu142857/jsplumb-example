@@ -3,9 +3,11 @@
   height: 100%;
   position: relative;
 }
+
 .jtk-demo-canvas {
   height: 100%;
 }
+
 .jtk-bootstrap {
   min-height: 100vh;
   display: flex;
@@ -242,4 +244,62 @@ path {
 
 .demo-links i {
   padding: 4px;
+}
+
+.workplace {
+  padding: 20px;
+  .chart-item {
+    position: absolute;
+  }
+}
+
+.box-card {
+  .header {
+    padding: 10px 20px;
+    border-bottom: 1px solid #000;
+  }
+  .card-body {
+    padding: 20px;
+    text-align: center;
+  }
+}
+
+.chart-item {
+  display: inline-block;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  touch-action: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  &.circle {
+    background-image: url(../images/circle.png);
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    background-size: 100%;
+  }
+  &.diamond {
+    background-image: url(../images/diamond.png);
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    background-size: 100%;
+  }
+  &.ellipse {
+    background-image: url(../images/ellipse.png);
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    background-size: 100%;
+  }
+  &.rectangle {
+    background-image: url(../images/rectangle.png);
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    background-size: 100%;
+  }
 }
