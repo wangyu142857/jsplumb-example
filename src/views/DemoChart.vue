@@ -2,7 +2,9 @@
   <el-container class="container" id="work-container">
     <el-aside width="200px">
       <div class="template-box">
-        <div class="header">模板列表</div>
+        <div class="header">模板列表
+          <i class="el-icon-circle-plus-outline add" title="新建" @click="handleClickTemp()"></i>
+        </div>
         <ul class="template-list">
           <li class="item" :class="{'active':item.isActive}" v-for="item in templateList" :key="item.key" @click="handleClickTemp(item.key)">
             {{item.name}}
@@ -416,42 +418,62 @@ export default {
      * @param {String} key 模板关键值
      */
     handleClickTemp(key) {
-      this.templateList.forEach(item=>{
-        if(item.key === key) {
-          item.isActive = true;
-        }else {
-          item.isActive = false;
-        }
-      })
-      let url = "/static/json/" + key + ".json";
       this.chartData = {
         nodes: [],
         connections: [],
         props: {}
       };
       this.jsp.empty("workplace");
+      if (key) {
+        this.templateList.forEach(item => {
+          if (item.key === key) {
+            item.isActive = true;
+          } else {
+            item.isActive = false;
+          }
+        });
+        let url = "/static/json/" + key + ".json";
 
-      this.$axios
-        .get(url)
-        .then(resp => {
-          console.log(resp);
-          this.chartData = resp.data;
-          this.$nextTick(() => {
-            this.chartData.nodes.forEach(item => {
-              this.initNode(item.id);
-            });
-            // this.jsp.empty();
-            this.chartData.connections.forEach(item => {
-              this.jsp.connect({
-                source: item.sourceId,
-                target: item.targetId
+        this.$axios
+          .get(url)
+          .then(resp => {
+            console.log(resp);
+            this.chartData = resp.data;
+            this.$nextTick(() => {
+              this.chartData.nodes.forEach(item => {
+                this.initNode(item.id);
+              });
+              // this.jsp.empty();
+              this.chartData.connections.forEach(item => {
+                this.jsp.connect({
+                  source: item.sourceId,
+                  target: item.targetId
+                });
               });
             });
+          })
+          .catch(err => {
+            console.log(err);
           });
-        })
-        .catch(err => {
-          console.log(err);
+      } else {
+        this.$nextTick(() => {
+          this.chartData.nodes.push({
+            id: "start",
+            icon: "el-icon-loading",
+            type: "circle",
+            text: "开始",
+            nodeStyle: {
+              top: "100px",
+              left: "300px"
+            }
+          });
+          this.$nextTick(() => {
+            this.jsp.batch(() => {
+              this.initNode(jsPlumb.getSelector("#start"));
+            });
+          });
         });
+      }
     }
   },
   /* beforeRouteUpdate(to, from, next) {

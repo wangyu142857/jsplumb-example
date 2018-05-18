@@ -247,6 +247,12 @@ textarea {
     padding: 5px;
     border-bottom: 1px solid #000;
     font-size: 16px;
+    .add {
+      float: right;
+      font-size: 20px;
+      color: #409EFF;
+      cursor: pointer;
+    }
   }
   .template-list {
     padding: 5px;
