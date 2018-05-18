@@ -1,0 +1,73 @@
+{
+  "nodes": [{
+      "icon": "el-icon-loading",
+      "id": "start",
+      "nodeStyle": {
+        "top": "80px",
+        "left": "186px"
+      },
+      "text": "开始",
+      "type": "circle"
+    },
+    {
+      "icon": "el-icon-menu",
+      "id": "038f9f38-b7f1-4ee3-bea5-db8c36130624",
+      "nodeStyle": {
+        "top": "80px",
+        "left": "486px"
+      },
+      "text": "伴随车牌",
+      "type": "diamond"
+    },
+    {
+      "icon": "el-icon-location",
+      "id": "1b87fc6f-e0d2-4ee4-9df9-b4952494eee6",
+      "nodeStyle": {
+        "top": "80px",
+        "left": "786px"
+      },
+      "text": "伴随imsi",
+      "type": "diamond"
+    },
+    {
+      "icon": "el-icon-date",
+      "id": "744627f4-5fc8-47d2-8fd2-cd1b3605d542",
+      "nodeStyle": {
+        "top": "369px",
+        "left": "486px"
+      },
+      "text": "差集",
+      "type": "diamond"
+    },
+    {
+      "icon": "el-icon-upload",
+      "id": "end",
+      "nodeStyle": {
+        "top": "696px",
+        "left": "486px"
+      },
+      "text": "结束",
+      "type": "circle"
+    }
+  ],
+  "connections": [{
+      "sourceId": "start",
+      "targetId": "744627f4-5fc8-47d2-8fd2-cd1b3605d542"
+    },
+    {
+      "sourceId": "038f9f38-b7f1-4ee3-bea5-db8c36130624",
+      "targetId": "744627f4-5fc8-47d2-8fd2-cd1b3605d542"
+    },
+    {
+      "sourceId": "1b87fc6f-e0d2-4ee4-9df9-b4952494eee6",
+      "targetId": "744627f4-5fc8-47d2-8fd2-cd1b3605d542"
+    },
+    {
+      "sourceId": "744627f4-5fc8-47d2-8fd2-cd1b3605d542",
+      "targetId": "end"
+    }
+  ],
+  "props": {
+    "name": "模板二"
+  }
+}

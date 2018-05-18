@@ -4,11 +4,9 @@
       <div class="template-box">
         <div class="header">模板列表</div>
         <ul class="template-list">
-          <li class="item">
-            <!-- <router-link to="/demo-chart/fir">模板一</router-link> -->
-          </li>
-          <li class="item">
-            <!-- <router-link to="/demo-chart/sec">模板二</router-link> -->
+          <li class="item" :class="{'active':item.isActive}" v-for="item in templateList" :key="item.key" @click="handleClickTemp(item.key)">
+            {{item.name}}
+            <!-- <router-link to="/demo-chart/fir"></router-link> -->
           </li>
         </ul>
       </div>
@@ -66,6 +64,16 @@ export default {
         msg: ""
       },
       formLabelWidth: "100px",
+      templateList: [
+        {
+          name: "模板一",
+          key: "json.1"
+        },
+        {
+          name: "模板二",
+          key: "json.2"
+        }
+      ],
       list: [
         [
           {
@@ -274,8 +282,8 @@ export default {
             let id = params.el.id;
             _self.chartData.nodes.forEach(item => {
               if (item.id === id) {
-                item.nodeStyle.left = params.pos[1];
-                item.nodeStyle.top = params.pos[0];
+                item.nodeStyle.left = params.pos[0] + "px";
+                item.nodeStyle.top = params.pos[1] + "px";
               }
             });
           }
@@ -322,6 +330,64 @@ export default {
     });
   },
   methods: {
+    // 初始化node节点
+    initNode(el) {
+      // initialise draggable elements.
+      // 元素拖动，基于 katavorio.js 插件
+      let _self = this;
+      this.jsp.draggable(el, {
+        containment: true,
+        start(params) {
+          // 拖动开始
+          // console.log(params);
+        },
+        drag(params) {
+          // 拖动中
+          // console.log(params);
+        },
+        stop(params) {
+          // 拖动结束
+          console.log(params);
+          let id = params.el.id;
+          _self.chartData.nodes.forEach(item => {
+            if (item.id === id) {
+              item.nodeStyle.left = params.pos[0] + "px";
+              item.nodeStyle.top = params.pos[1] + "px";
+            }
+          });
+        }
+      });
+
+      this.jsp.makeSource(el, {
+        filter: ".ep",
+        // anchor: "Continuous",
+        anchor: ["Perimeter", { shape: "Rectangle" }],
+        connectorStyle: {
+          stroke: "#5c96bc",
+          strokeWidth: 2,
+          outlineStroke: "transparent",
+          outlineWidth: 4
+        },
+        extract: {
+          action: "the-action"
+        },
+        maxConnections: -1,
+        onMaxConnections: function(info, e) {
+          alert("Maximum connections (" + info.maxConnections + ") reached");
+        }
+      });
+
+      this.jsp.makeTarget(el, {
+        dropOptions: { hoverClass: "dragHover" },
+        anchor: ["Perimeter", { shape: "Rectangle" }],
+        allowLoopback: false
+      });
+
+      // this is not part of the core demo functionality; it is a means for the Toolkit edition's wrapped
+      // version of this demo to find out about new nodes being added.
+      //
+      this.jsp.fire("jsPlumbDemoNodeAdded", el);
+    },
     // 保存
     saveChart() {
       this.dialogFormVisible = true;
@@ -337,12 +403,55 @@ export default {
       this.chartForm = {
         name: "",
         msg: ""
-      }
-      this.$refs.chartForm.resetFields();
+      };
+      this.$message.info("已取消保存");
     },
     submitSave() {
       this.dialogFormVisible = false;
+      this.chartData.props = this.chartForm;
+      this.$message.success("保存成功");
+    },
+    /**
+     * @description 模板点击事件
+     * @param {String} key 模板关键值
+     */
+    handleClickTemp(key) {
+      this.templateList.forEach(item=>{
+        if(item.key === key) {
+          item.isActive = true;
+        }else {
+          item.isActive = false;
+        }
+      })
+      let url = "/static/json/" + key + ".json";
+      this.chartData = {
+        nodes: [],
+        connections: [],
+        props: {}
+      };
+      this.jsp.empty("workplace");
 
+      this.$axios
+        .get(url)
+        .then(resp => {
+          console.log(resp);
+          this.chartData = resp.data;
+          this.$nextTick(() => {
+            this.chartData.nodes.forEach(item => {
+              this.initNode(item.id);
+            });
+            // this.jsp.empty();
+            this.chartData.connections.forEach(item => {
+              this.jsp.connect({
+                source: item.sourceId,
+                target: item.targetId
+              });
+            });
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   /* beforeRouteUpdate(to, from, next) {

@@ -253,7 +253,16 @@ textarea {
     color: #000;
   }
   .item {
-    line-height: 25px;
+    line-height: 35px;
+    cursor: pointer;
+    color: #545c64;
+    font-size: 14px;
+    &.active {
+      color: #409EFF;
+    }
+    &:hover {
+      color: #409EFF;
+    }
     a {
       text-decoration: none;
       color: #545c64;
@@ -262,7 +271,6 @@ textarea {
         color: #409EFF;
       }
     }
-    
   }
 }
 
@@ -272,8 +280,6 @@ textarea {
   right: 220px;
   z-index: 999999;
 }
-
-
 
 .workplace {
   .chart-dot {
@@ -286,4 +292,3 @@ textarea {
     }
   }
 }
-
