@@ -13,7 +13,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "element-ui": "^2.3.7",
+    "element-ui": "^2.3.9",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
