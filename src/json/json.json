@@ -1,0 +1,173 @@
+{
+  "states": {
+    "rect1": {
+      "type": "start",
+      "scope": "null",
+      "text": {
+        "text": "开始1"
+      },
+      "attr": {
+        "x": 565,
+        "y": 139,
+        "width": 100,
+        "height": 50
+      },
+      "props": {
+        "text": {
+          "value": "开始1"
+        },
+        "temp1": {
+          "value": ""
+        },
+        "temp2": {
+          "value": ""
+        }
+      }
+    },
+    "rect2": {
+      "type": "task_czrksx",
+      "scope": "czrksx",
+      "text": {
+        "text": "常驻人口筛选2"
+      },
+      "attr": {
+        "x": 465,
+        "y": 322,
+        "width": 100,
+        "height": 50
+      },
+      "props": {
+        "text": {
+          "value": "常驻人口筛选2"
+        },
+        "value": {
+          "value": ""
+        },
+        "endTime": {
+          "value": ""
+        },
+        "minOccurDays": {
+          "value": ""
+        },
+        "nodeBranch": {
+          "value": ""
+        }
+      }
+    },
+    "rect3": {
+      "type": "task_bsimsi",
+      "scope": "bsimsi",
+      "text": {
+        "text": "伴随imsi3"
+      },
+      "attr": {
+        "x": 684,
+        "y": 373,
+        "width": 100,
+        "height": 50
+      },
+      "props": {
+        "text": {
+          "value": "伴随imsi3"
+        },
+        "keywordType": {
+          "value": ""
+        },
+        "keyword": {
+          "value": ""
+        },
+        "value": {
+          "value": ""
+        },
+        "endTime": {
+          "value": ""
+        },
+        "timeDiff": {
+          "value": ""
+        },
+        "prefixCode": {
+          "value": ""
+        },
+        "cityCode": {
+          "value": ""
+        },
+        "yysbz": {
+          "value": ""
+        }
+      }
+    },
+    "rect4": {
+      "type": "end",
+      "scope": "null",
+      "text": {
+        "text": "结束4"
+      },
+      "attr": {
+        "x": 475,
+        "y": 607,
+        "width": 100,
+        "height": 50
+      },
+      "props": {
+        "text": {
+          "value": "结束4"
+        },
+        "temp1": {
+          "value": ""
+        },
+        "temp2": {
+          "value": ""
+        }
+      }
+    }
+  },
+  "paths": {
+    "path5": {
+      "from": "rect1",
+      "to": "rect2",
+      "dots": [],
+      "text": {
+        "text": "TO 常驻人口筛选2",
+        "Pos": {
+          "x": 0,
+          "y": -10
+        }
+      },
+      "props": {
+        "text": {
+          "value": ""
+        }
+      }
+    },
+    "path6": {
+      "from": "rect2",
+      "to": "rect1",
+      "dots": [],
+      "text": {
+        "text": "TO 开始1",
+        "Pos": {
+          "x": 0,
+          "y": -10
+        }
+      },
+      "props": {
+        "text": {
+          "value": ""
+        }
+      }
+    }
+  },
+  "props": {
+    "props": {
+      "name": {
+        "value": "新建流程"
+      },
+      "key": {
+        "value": ""
+      },
+      "desc": {
+        "value": ""
+      }
+    }
+  }
+}

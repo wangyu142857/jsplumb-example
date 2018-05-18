@@ -14,9 +14,13 @@ import SourcesAndTargets from '@/views/official-demos/SourcesAndTargets'
 
 // my-demos
 import MyHello from '@/views/my-demos/MyHello'
+import MyDrag from '@/views/my-demos/MyDrag'
+import MyOverlay from '@/views/my-demos/MyOverlay'
+import MySource from '@/views/my-demos/MySource'
 
 // DragToWorkplace
 import DragToWorkplace from '@/views/DragToWorkplace'
+import DemoChart from '@/views/DemoChart'
 
 
 Vue.use(Router)
@@ -75,11 +79,42 @@ export default new Router({
       name: 'MyHello',
       component: MyHello
     },
-    // my-demos
+    {
+      path: '/my-drag',
+      name: 'MyDrag',
+      component: MyDrag
+    },
+    {
+      path: '/my-overlay',
+      name: 'MyOverlay',
+      component: MyOverlay
+    },
+    {
+      path: '/my-source',
+      name: 'MySource',
+      component: MySource
+    },
+    // demos
     {
       path: '/drag-to-workplace',
       name: 'DragToWorkplace',
       component: DragToWorkplace
-    }
+    },
+    {
+      path: '/demo-chart/:id',
+      name: 'DemoChart',
+      component: DemoChart,
+      /* children: [
+        {
+          path:''
+        }
+      ] */
+    },
+    {
+      path: '/demo-chart',
+      name: 'DemoChart',
+      component: DemoChart,
+    },
+    
   ]
 })

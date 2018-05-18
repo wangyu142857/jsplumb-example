@@ -1,15 +1,20 @@
 <template>
-  <el-container class="container">
+  <el-container class="container" id="work-container">
 
     <el-aside width="200px">
       <div class="box-card">
         <div class="header">模块一</div>
         <div class="card-body">
-          <div class="item chart-item" :class="item" v-for="item in list" :key="item">{{item}}</div>
+          <div class="item" v-for="(item,i) in list" :key="item">
+            <i class="chart-item" :class="item" :data-key="item">{{i}}</i>
+          </div>
         </div>
       </div>
     </el-aside>
-    <el-main class="workplace" id="workplace"></el-main>
+    <el-main>
+      <div class="workplace" id="workplace">
+      </div>
+    </el-main>
 
   </el-container>
 </template>
@@ -131,9 +136,9 @@ export default {
         ]
       };
       let init = function(connection) {
-        connection
-          .getOverlay("label")
-          .setLabel(connection.sourceId + "-" + connection.targetId);
+        console.log(connection);
+
+        connection.getOverlay("label").setLabel("123");
       };
       let addEndpoints = function(toId, sourceAnchors, targetAnchors) {
         console.log(toId, sourceAnchors, targetAnchors);
@@ -155,19 +160,16 @@ export default {
         }
       };
 
-      // suspend drawing and initialise.
+      // 暂停渲染，执行以下操作
       instance.batch(function() {
         // listen for new connections;
         instance.bind("connection", function(connInfo, originalEvent) {
-          console.log(connInfo);
-
           init(connInfo.connection);
         });
-
-        // make all the window divs draggable
+        /* // make all the window divs draggable
         instance.draggable($(".workplace .chart-item"), {
           grid: [1, 1]
-        });
+        }); */
 
         // listen for clicks on connections, and offer to delete connections on click.
         instance.bind("click", function(conn, originalEvent) {
@@ -196,9 +198,10 @@ export default {
         });
       });
       // 将模块拖入画板中
-      $(".box-card .item").draggable({
+      $(".box-card .chart-item").draggable({
         scope: "plant",
-        helper: "clone"
+        helper: "clone",
+        containment: $("#work-container")
       });
       $("#workplace").droppable({
         scope: "plant",
@@ -207,12 +210,14 @@ export default {
 
           let id = "item" + new Date().getTime();
 
-          let html = `<div id="${id}" class="chart-item ${ui.helper.html()}">${ui.helper.html()}</div>`;
+          let html = `<div id="${id}" class="chart-item ${ui.helper.attr(
+            "data-key"
+          )}">${ui.helper.html()}</div>`;
 
           $(this).append(html);
           $("#" + id).css({
-            top: ui.position.top + "px",
-            left: ui.position.left + "px"
+            top: ui.position.top - 60 + "px",
+            left: ui.position.left - 200 + "px"
           });
           addEndpoints(
             id,
@@ -224,11 +229,13 @@ export default {
           jsPlumb.addEndpoint(id, { anchors: "RightMiddle" });
           jsPlumb.addEndpoint(id, { anchors: "BottomCenter" });
           jsPlumb.addEndpoint(id, { anchors: "LeftMiddle" }); */
-          instance.draggable(jsPlumb.getSelector("#" + id), {
-            grid: [1, 1]
-          });
-          instance.draggable(jsPlumb.getSelector("#" + id), {
+
+          /* instance.draggable(jsPlumb.getSelector("#" + id), {
             containment: "parent"
+          }); */
+          instance.draggable(id, {
+            grid: [1, 1]
+            // containment: true
           });
         }
       });
@@ -239,11 +246,12 @@ export default {
   methods: {}
 };
 </script>
-<style scoped lang="scss">
-#workplace {
-  overflow: scroll;
+<style lang="scss">
+.workplace {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
-
 </style>
 
 

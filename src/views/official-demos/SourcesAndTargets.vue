@@ -30,7 +30,7 @@ export default {
     return {};
   },
   mounted() {
-    jsPlumb.ready(function() {
+    jsPlumb.ready(() => {
       // list of possible anchor locations for the blue source element
       var sourceAnchors = [
         [0, 1, 0, 1],
@@ -55,7 +55,7 @@ export default {
       }));
 
       // click listener for the enable/disable link in the source box (the blue one).
-      jsPlumb.on(
+      /* jsPlumb.on(
         document.getElementById("enableDisableSource"),
         "click",
         function(e) {
@@ -68,10 +68,10 @@ export default {
           );
           jsPlumbUtil.consume(e);
         }
-      );
+      ); */
 
       // click listener for enable/disable in the small green boxes
-      jsPlumb.on(
+      /* jsPlumb.on(
         document.getElementById("canvas"),
         "click",
         ".enableDisableTarget",
@@ -85,12 +85,11 @@ export default {
           );
           jsPlumbUtil.consume(e);
         }
-      );
+      ); */
 
       // bind to a connection event, just for the purposes of pointing out that it can be done.
       instance.bind("connection", function(i, c) {
-        if (typeof console !== "undefined")
-          console.log("connection", i.connection);
+        console.log("connection", i.connection);
       });
 
       // get the list of ".smallWindow" elements.

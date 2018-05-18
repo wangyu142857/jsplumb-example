@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-  name: "MyDrag",
+  name: "MyOverlay",
   data() {
     return {};
   },
@@ -55,6 +55,14 @@ export default {
         Container: "canvas"
       }));
 
+      var basicType = {
+        connector: "StateMachine",
+        paintStyle: { stroke: "red", strokeWidth: 4 },
+        hoverPaintStyle: { stroke: "blue" },
+        overlays: ["Arrow"]
+      };
+      instance.registerConnectionType("basic", basicType);
+
       // this is the paint style for the connecting lines..
       var connectorPaintStyle = {
           strokeWidth: 2,
@@ -84,7 +92,7 @@ export default {
             strokeWidth: 1
           },
           isSource: true,
-          /* connector: [
+          connector: [
             "Flowchart",
             {
               stub: [40, 60],
@@ -92,8 +100,7 @@ export default {
               cornerRadius: 5,
               alwaysRespectStubs: true
             }
-          ], */
-          connector: "Straight",
+          ],
           connectorStyle: connectorPaintStyle,
           hoverPaintStyle: endpointHoverStyle,
           connectorHoverStyle: connectorHoverStyle,
@@ -131,8 +138,9 @@ export default {
           ]
         },
         init = function(connection) {
-          console.log(connection.getOverlay("label"));
-
+          console.log(connection
+            .getOverlay("label"));
+          
           connection
             .getOverlay("label")
             .setLabel(
@@ -144,42 +152,26 @@ export default {
 
       var _addEndpoints = function(toId, sourceAnchors, targetAnchors) {
         console.log(toId, sourceAnchors, targetAnchors);
-
+        
         for (var i = 0; i < sourceAnchors.length; i++) {
           var sourceUUID = toId + sourceAnchors[i];
           instance.addEndpoint("flowchart" + toId, sourceEndpoint, {
-            // anchor: sourceAnchors[i],
-            anchor: ["Perimeter", { shape: "Rectangle" }],
+            anchor: sourceAnchors[i],
             uuid: sourceUUID
           });
         }
-        /* for (var j = 0; j < targetAnchors.length; j++) {
+        for (var j = 0; j < targetAnchors.length; j++) {
           var targetUUID = toId + targetAnchors[j];
           instance.addEndpoint("flowchart" + toId, targetEndpoint, {
             anchor: targetAnchors[j],
-            // anchor: ['Perimeter',{shape:"Rectangle"}],
             uuid: targetUUID
           });
-        } */
-        
-        
-        /* instance.makeSource(toId, {
-          // filter: "a",
-          // filterExclude: true,
-          maxConnections: -1,
-          endpoint: sourceEndpoint,
-          anchor: ["Bottom"]
-        });
-        instance.makeTarget(toId, {
-          dropOptions: { hoverClass: "hover" },
-          anchor: ['Perimeter',{shape:'Rectangle'}],
-          endpoint: targetEndpoint
-        }); */
+        }
       };
 
       // suspend drawing and initialise.
       instance.batch(function() {
-        /* _addEndpoints(
+        _addEndpoints(
           "Window2",
           ["RightMiddle", "BottomCenter"],
           ["LeftMiddle", "TopCenter"]
@@ -188,16 +180,7 @@ export default {
           "Window1",
           ["LeftMiddle", "RightMiddle"],
           ["TopCenter", "BottomCenter"]
-        ); */
-        jsPlumb.makeSource($("#Window1"), {
-          anchor: "Continuous",
-          isSource: true,
-          endpoint: ["Rectangle", { width: 40, height: 20 }],
-          maxConnections: 3
-        });
-        /* jsPlumb.makeTarget($("#Window2"), {
-          isTarget: true
-        }); */
+        );
 
         // listen for new connections; initialise them the same way we initialise the connections at startup.
         instance.bind("connection", function(connInfo, originalEvent) {
@@ -213,10 +196,10 @@ export default {
         //jsPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
 
         // connect a few up
-        /* instance.connect({
+        instance.connect({
           uuids: ["Window2BottomCenter", "Window1BottomCenter"],
           editable: true
-        }); */
+        });
         //
 
         //
@@ -225,7 +208,7 @@ export default {
         instance.bind("click", function(conn, originalEvent) {
           // if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
           //   instance.detach(conn);
-          // conn.toggleType("basic");
+          conn.toggleType("basic");
         });
 
         instance.bind("connectionDrag", function(connection) {
@@ -252,6 +235,7 @@ export default {
     });
   }
 };
+
 </script>
 
 <style scoped>
