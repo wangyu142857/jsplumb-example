@@ -5,45 +5,67 @@
         <div class="header">模板列表</div>
         <ul class="template-list">
           <li class="item">
-            <router-link to="/demo-chart/fir">模板一</router-link>
+            <!-- <router-link to="/demo-chart/fir">模板一</router-link> -->
           </li>
           <li class="item">
-            <router-link to="/demo-chart/sec">模板二</router-link>
+            <!-- <router-link to="/demo-chart/sec">模板二</router-link> -->
           </li>
         </ul>
       </div>
     </el-aside>
     <el-main>
-        <el-button class="btn-save" @click="saveChart" type="success">保存</el-button>
+      <el-button class="btn-save" @click="saveChart" type="success">保存</el-button>
       <div class="workplace" id="workplace">
-        <div class="workplace-chart" id="start">
+        <!-- <div class="workplace-chart" id="start">
           <i class="el-icon-loading circle"></i>
           <span>开始</span>
           <div class="ep"></div>
-        </div>
+        </div> -->
+        <chart-node v-for="(item, idx) in chartData.nodes" v-bind="item" :key="idx"></chart-node>
       </div>
     </el-main>
     <el-aside width="200px">
       <div class="box-card" v-for="(item,idx) in list" :key="idx">
         <div class="header">模块{{idx+1}}</div>
         <div class="card-body">
-          <div class="item" v-for="(item2,idx2) in item" :key="idx2" :data-key="item2.type">
+          <div class="item" v-for="(item2,idx2) in item" :key="idx2" :data-icon="item2.icon" :data-text="item2.name" :data-type="item2.type">
             <i :class="[item2.icon,item2.type]"></i>
-            <span>{{item2.name}}</span>
+            <span class="text">{{item2.name}}</span>
 
           </div>
         </div>
       </div>
     </el-aside>
+    <el-dialog title="智能模型保存" :visible.sync="dialogFormVisible">
+      <el-form :model="chartForm" ref="chartForm" :label-width="formLabelWidth">
+        <el-form-item label="模型名称">
+          <el-input v-model="chartForm.name" auto-complete="off" placeholder="请输入模型名称"></el-input>
+        </el-form-item>
+        <el-form-item label="批注内容">
+          <el-input type="textarea" :autosize="true" v-model="chartForm.msg" auto-complete="off" placeholder="请输入模型批注内容"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelSave">取 消</el-button>
+        <el-button type="primary" @click="submitSave">确 定</el-button>
+      </div>
+    </el-dialog>
 
   </el-container>
 </template>
 
 <script>
+import ChartNode from "@/components/ChartNode";
 export default {
   name: "DemoChart",
   data() {
     return {
+      dialogFormVisible: false,
+      chartForm: {
+        name: "",
+        msg: ""
+      },
+      formLabelWidth: "100px",
       list: [
         [
           {
@@ -92,11 +114,27 @@ export default {
           }
         ]
       ],
-      jsp: null
+      jsp: null,
+      chartData: {
+        nodes: [
+          {
+            id: "start",
+            icon: "el-icon-loading",
+            type: "circle",
+            text: "开始",
+            nodeStyle: {
+              top: "100px",
+              left: "300px"
+            }
+          }
+        ],
+        connections: [],
+        props: {}
+      }
     };
   },
   mounted() {
-    console.log(this.$route.params);
+    const _self = this;
 
     jsPlumb.ready(() => {
       // 默认配置
@@ -131,19 +169,32 @@ export default {
       //   instance.deleteConnection(c);
       // });
 
-      // bind a connection listener. note that the parameter passed to this function contains more than
-      // just the new connection - see the documentation for a full list of what is included in 'info'.
-      // this listener sets the connection's internal
-      // id as the label overlay's text.
+      // 监听 connection 事件
       instance.bind("connection", function(info) {
         // info.connection.getOverlay("label").setLabel(info.connection.id);
       });
+      // 监听拖动connection 事件，判断是否有重复链接
       instance.bind("beforeDrop", function(info) {
         // info.connection.getOverlay("label").setLabel(info.connection.id);
         console.log(info);
+        // 判断是否已有该连接
         let isSame = true;
-        if (!isSame) {
+        _self.chartData.connections.forEach(item => {
+          if (
+            (item.targetId === info.targetId &&
+              item.sourceId === info.sourceId) ||
+            (item.targetId === info.sourceId && item.sourceId === info.targetId)
+          ) {
+            isSame = false;
+          }
+        });
+        if (isSame) {
+          _self.chartData.connections.push({
+            targetId: info.targetId,
+            sourceId: info.sourceId
+          });
         } else {
+          _self.$message.error("不允许重复连接！");
         }
         return isSame;
       });
@@ -173,15 +224,31 @@ export default {
           //   left: ui.position.left - 200 + "px"
           // });
           // initNode($("#" + id));
-          let d = document.createElement("div");
+          /* let d = document.createElement("div");
           let id = jsPlumbUtil.uuid();
           d.className = "workplace-chart";
           d.id = id;
           d.innerHTML = ui.helper.html() + '<div class="ep"></div>';
           d.style.top = ui.position.top - 60 + "px";
           d.style.left = ui.position.left - 200 + "px";
-          instance.getContainer().appendChild(d);
-          initNode(d);
+          instance.getContainer().appendChild(d); */
+          let helper = ui.helper;
+          let id = jsPlumbUtil.uuid();
+          let item = {
+            id,
+            icon: helper.attr("data-icon"),
+            type: helper.attr("data-type"),
+            text: helper.attr("data-text"),
+            nodeStyle: {
+              top: ui.position.top - 60 + "px",
+              left: ui.position.left - 200 + "px"
+            }
+          };
+
+          _self.chartData.nodes.push(item);
+          _self.$nextTick(() => {
+            initNode(id);
+          });
         }
       });
 
@@ -190,8 +257,28 @@ export default {
       //
       var initNode = function(el) {
         // initialise draggable elements.
+        // 元素拖动，基于 katavorio.js 插件
         instance.draggable(el, {
-          containment: true
+          containment: true,
+          start(params) {
+            // 拖动开始
+            // console.log(params);
+          },
+          drag(params) {
+            // 拖动中
+            // console.log(params);
+          },
+          stop(params) {
+            // 拖动结束
+            console.log(params);
+            let id = params.el.id;
+            _self.chartData.nodes.forEach(item => {
+              if (item.id === id) {
+                item.nodeStyle.left = params.pos[1];
+                item.nodeStyle.top = params.pos[0];
+              }
+            });
+          }
         });
 
         instance.makeSource(el, {
@@ -227,7 +314,9 @@ export default {
 
       // 暂停渲染，执行以下操作
       instance.batch(() => {
-        initNode($("#start"));
+        jsPlumb.getSelector(".workplace-chart").forEach(item => {
+          initNode(item);
+        });
       });
       jsPlumb.fire("jsPlumbDemoLoaded", instance);
     });
@@ -235,18 +324,39 @@ export default {
   methods: {
     // 保存
     saveChart() {
-      console.log(this.jsp.getConnections());
+      this.dialogFormVisible = true;
+      // console.log(this.jsp.getConnections());
+      console.log(this.chartData);
+      // jsPlumb.repaintEverything();
+    },
+    /**
+     * @description 取消保存
+     */
+    cancelSave() {
+      this.dialogFormVisible = false;
+      this.chartForm = {
+        name: "",
+        msg: ""
+      }
+      this.$refs.chartForm.resetFields();
+    },
+    submitSave() {
+      this.dialogFormVisible = false;
+
     }
   },
   /* beforeRouteUpdate(to, from, next) {
     console.log(to, from, next);
   }, */
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       console.log(to, from);
-      
+
       // 对路由变化作出响应...
     }
+  },
+  components: {
+    ChartNode
   }
 };
 </script>

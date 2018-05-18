@@ -101,7 +101,7 @@ export default new Router({
       component: DragToWorkplace
     },
     {
-      path: '/demo-chart/:id',
+      path: '/demo-chart',
       name: 'DemoChart',
       component: DemoChart,
       /* children: [
@@ -109,12 +109,7 @@ export default new Router({
           path:''
         }
       ] */
-    },
-    {
-      path: '/demo-chart',
-      name: 'DemoChart',
-      component: DemoChart,
-    },
+    }
     
   ]
 })
