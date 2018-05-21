@@ -432,7 +432,7 @@ export default {
             item.isActive = false;
           }
         });
-        let url = "/static/json/" + key + ".json";
+        let url = "./static/json/" + key + ".json";
 
         this.$axios
           .get(url)
