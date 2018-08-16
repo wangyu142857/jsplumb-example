@@ -1,5 +1,5 @@
-# flow-chart
-demos: [https://wangyu142857.github.io/flow-chart/dist](https://wangyu142857.github.io/flow-chart/dist)
+# jsplumb-example
+demos: [https://wangyu142857.github.io/jsplumb-example/dist](https://wangyu142857.github.io/jsplumb-example/dist)
 
 > Use Jsplumb draw flow chart
 
@@ -10,11 +10,7 @@ demos: [https://wangyu142857.github.io/flow-chart/dist](https://wangyu142857.git
 npm install
 
 # install Plugin
-npm i element-ui -S
 npm install sass-loader node-sass --save-dev
-npm install jsplumb
-npm install axios
-
 
 # serve with hot reload at localhost:8080
 npm run dev
