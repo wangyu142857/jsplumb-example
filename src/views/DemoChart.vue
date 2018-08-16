@@ -15,13 +15,14 @@
     </el-aside>
     <el-main>
       <el-button class="btn-save" @click="saveChart" type="success">保存</el-button>
+      <el-button class="btn-save-img" @click="saveChartImg" type="info">保存为图片</el-button>
       <div class="workplace" id="workplace">
         <!-- <div class="workplace-chart" id="start">
           <i class="el-icon-loading circle"></i>
           <span>开始</span>
           <div class="ep"></div>
         </div> -->
-        <chart-node v-for="(item, idx) in chartData.nodes" v-bind="item" :key="idx"></chart-node>
+        <chart-node v-for="(item, idx) in chartData.nodes" v-bind="item" :key="idx" @edit="editNode(item,idx)"></chart-node>
       </div>
     </el-main>
     <el-aside width="200px">
@@ -36,6 +37,8 @@
         </div>
       </div>
     </el-aside>
+
+    <!-- 模型保存弹出层 -->
     <el-dialog title="智能模型保存" :visible.sync="dialogFormVisible">
       <el-form :model="chartForm" ref="chartForm" :label-width="formLabelWidth">
         <el-form-item label="模型名称">
@@ -51,21 +54,51 @@
       </div>
     </el-dialog>
 
+    <!-- 节点属性设置弹出层 -->
+    <el-dialog :visible.sync="dialogFormVisible2">
+      <div slot="title">属性设置</div>
+      <el-form :model="nodeForm" ref="nodeForm" :label-width="formLabelWidth">
+        <el-form-item label="开始时间">
+          <el-date-picker v-model="nodeForm.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="结束时间">
+          <el-date-picker v-model="nodeForm.endTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="最小出现天数">
+          <el-input v-model="nodeForm.minDays" placeholder="请输入最小出现天数" style="width:100px"></el-input>
+          <span>（请输入大于0的整数）</span>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="saveNodeEdit">确 定</el-button>
+          <el-button @click="cancelSaveNodeEdit">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
+    <div id="canvasDiv" style='display: none;'></div>
+
   </el-container>
 </template>
 
 <script>
 import ChartNode from "@/components/ChartNode";
+// import html2canvas from "html2canvas";
 export default {
   name: "DemoChart",
   data() {
     return {
       dialogFormVisible: false,
+      dialogFormVisible2: false,
       chartForm: {
         name: "",
         msg: ""
       },
       formLabelWidth: "100px",
+      nodeForm: {
+        startTime: "",
+        endTime: "",
+        minDays: ""
+      },
       templateList: [
         {
           name: "模板一",
@@ -150,7 +183,7 @@ export default {
       // 默认配置
       var instance = jsPlumb.getInstance({
         Endpoint: [
-          "Dot",
+          "Blank",
           { cssClass: "chart-dot", hoverClass: "chart-dot-hover", radius: 5 }
         ],
         Connector: "Straight",
@@ -269,7 +302,7 @@ export default {
         // initialise draggable elements.
         // 元素拖动，基于 katavorio.js 插件
         instance.draggable(el, {
-          containment: true,
+          // containment: true,
           start(params) {
             // 拖动开始
             // console.log(params);
@@ -338,7 +371,7 @@ export default {
       // 元素拖动，基于 katavorio.js 插件
       let _self = this;
       this.jsp.draggable(el, {
-        containment: true,
+        // containment: true,
         start(params) {
           // 拖动开始
           // console.log(params);
@@ -432,7 +465,8 @@ export default {
             item.isActive = false;
           }
         });
-        let url = "./static/json/" + key + ".json";
+        // let url = "./static/json/" + key + ".json";
+        let url = "/static/json/" + key + ".json";
 
         this.$axios
           .get(url)
@@ -474,6 +508,151 @@ export default {
           });
         });
       }
+    },
+    /**
+     * @description 双击触发节点编辑事件
+     * @param {Object} item 节点当前数据
+     * @param {Number} idx 下标
+     */
+    editNode(item, idx) {
+      this.dialogFormVisible2 = true;
+    },
+    /**
+     * @description 节点编辑保存
+     */
+    saveNodeEdit() {
+      // 验证表单
+      if (this.verifyNodeForm()) {
+        this.$message.success("保存成功");
+        this.dialogFormVisible2 = false;
+      }
+    },
+    /**
+     * @description 节点保存验证
+     */
+    verifyNodeForm() {
+      console.log(this.nodeForm);
+      let flag = false;
+      if (this.nodeForm.startTime === "") {
+        this.$message.warning("开始时间不能为空！");
+      } else if (this.nodeForm.endTime === "") {
+        this.$message.warning("结束时间不能为空！");
+      } else if (this.nodeForm.minDays === "") {
+        this.$message.warning("最小天数不能为空！");
+      } else if (
+        this.nodeForm.startTime.getTime() >= this.nodeForm.endTime.getTime()
+      ) {
+        this.$message.warning("开始时间必须小于结束时间！");
+      } else if (
+        !Number.isInteger(this.nodeForm.minDays - 0) ||
+        this.nodeForm.minDays - 0 <= 0
+      ) {
+        this.$message.warning("请输入大于0的整数！");
+      } else {
+        flag = true;
+      }
+      return flag;
+    },
+    /**
+     * @description 取消保存
+     */
+    cancelSaveNodeEdit() {
+      this.dialogFormVisible2 = false;
+    },
+    /**
+     * @description 保存为图片
+     */
+    saveChartImg() {
+      var statemachinediv = document.getElementById("workplace");
+
+      html2canvas(statemachinediv, {
+        onrendered: function(canvas) {
+          console.log(canvas);
+
+          $("#canvasDiv").empty();
+          document.getElementById("canvasDiv").appendChild(canvas);
+          var svgList = $(statemachinediv).find("svg");
+
+          svgList.each(function(index, value) {
+            try {
+              var svgExample = this;
+
+              var serializer = new XMLSerializer();
+              var svgMarkup = serializer.serializeToString(svgExample);
+              console.log(svgMarkup);
+              
+
+              if (svgMarkup.indexOf("_jsPlumb_connector") > -1) {
+                var leftIndex = svgMarkup.indexOf("left: ");
+                var endOfLeft = svgMarkup.indexOf("px", leftIndex);
+                var leftPosition = svgMarkup.substring(
+                  leftIndex + 6,
+                  endOfLeft
+                );
+                var left = parseInt(leftPosition);
+
+                var topIndex = svgMarkup.indexOf("top: ");
+                var endOfTop = svgMarkup.indexOf("px", topIndex);
+                var topPosition = svgMarkup.substring(topIndex + 5, endOfTop);
+                var top = parseInt(topPosition);
+
+                svgMarkup = svgMarkup.replace(
+                  'xmlns="http://www.w3.org/2000/svg"',
+                  ""
+                );
+
+                var connectorCanvas = document.createElement("canvas");
+                canvg(connectorCanvas, svgMarkup); //add connector to canvas
+
+                var context = canvas.getContext("2d");
+                context.drawImage(connectorCanvas, left, top);
+              }
+            } catch (err) {
+              showBalloon("error in print");
+            }
+          });
+
+          let ctx = canvas.getContext("2d");
+
+          var image = canvas
+            .toDataURL("image/png")
+            .replace("image/png", "image/octet-stream");
+          // window.location.href=image; // it will save locally
+          var saveFile = function(data, filename) {
+            var save_link = document.createElementNS(
+              "http://www.w3.org/1999/xhtml",
+              "a"
+            );
+            save_link.href = data;
+            save_link.download = filename;
+
+            var event = document.createEvent("MouseEvents");
+            event.initMouseEvent(
+              "click",
+              true,
+              false,
+              window,
+              0,
+              0,
+              0,
+              0,
+              0,
+              false,
+              false,
+              false,
+              false,
+              0,
+              null
+            );
+            save_link.dispatchEvent(event);
+          };
+
+          // 下载后的问题名
+          var filename = "下载.png";
+          // download
+          saveFile(image, filename);
+        }
+      });
     }
   },
   /* beforeRouteUpdate(to, from, next) {

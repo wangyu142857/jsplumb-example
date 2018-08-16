@@ -270,4 +270,53 @@ jp.endpointAnchorClass = "anchor_";
   使用`removeOverlay`删除`overlay`
 ---
 ## group - 组
+### Adding a Group 添加
+```
+jsPlumb.addGroup({
+  el:"foo",
+  id:"aGroup",
+  collapsed:true // 折叠
+
+});
+```
+这里我们创建了一个带ID的组aGroup。它的元素foo将会被拖放，并且它也将被配置为接受被拖放到它上面的元素。默认情况下，子元素可以在组元素之外拖动，但是如果它们没有被拖放到另一个组上，它们将在被拖动之前恢复到它们在组元素内的位置。
+- Group element parameters 组元素参数
+  - draggable 默认值为true
+  - dragOptions 拖拽参数
+    - filter 元素过滤
+  - droppable  默认值为true
+  - dropOptions  拖放参数
+  - proxied  代理，默认值为true。代理子元素的连接
+- Child element behaviour parameters 子元素参数
+  - revert 恢复，默认值为true。  
+  - prune 剪裁，默认值为false。如果为true，超出组元素外的空白子元素将删除，包括从实例中以及连接。  
+  - orphan 孤立，默认值为false。如果为true，超出组元素外的空白子元素将删除，不包括从实例中删除。  
+  - ghost 孤立，默认值为false。If true, a child element that is dragged outside of the Group element will have its original element left in place, and a 'ghost' element - a clone of the original - substituted, which tracks with the mouse. 
+  - dropOverride  默认值为false。如果为true，则可以将子元素拖到Group元素之外（假设没有其他标志阻止），但可能不会将其放到其他组中。  
+### Removing a Group 删除
+```
+jsPlumb.removeGroup("aGroup");
+jsPlumb.removeGroup("aGroup", true); // 删除全部包括子元素
+```
+### Proxy Endpoints 代理端点
+```
+jsPlumb.addGroup({
+    el:someElement,
+    id:"aGroup",
+    anchor:"TopLeft",
+    endpoint:[ "Rectangle", { width:10, height:10 } ]
+});
+```
+### methods
+- addToGroup(group, el) 添加
+- removeGromGroup(el) 移除 
+- collapseGroup(group) 折叠
+- expandGroup(group) 展开
+- getGroup(ID) 检索
+- getGroupFor(el/ID) 找出元素所属的组
+- getMembers 获取组的成员
+---
+## Element Dragging 元素拖动
+`基于Katavio.js插件`[https://github.com/jsplumb/katavorio](https://github.com/jsplumb/katavorio)
+
 ---

@@ -18,6 +18,9 @@ import './style/jsplumb-demo.scss';
 import 'jsplumb/dist/js/jsplumb.min.js';
 import 'jsplumb/dist/css/jsplumbtoolkit-defaults.css';
 
+// html2canvas
+import html2canvas from 'html2canvas';
+
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false
