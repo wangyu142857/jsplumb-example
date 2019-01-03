@@ -16,7 +16,7 @@ import './style/index.scss';
 import './style/jsplumb-demo.scss';
 // jsplumb
 import 'jsplumb/dist/js/jsplumb.min.js';
-import 'jsplumb/dist/css/jsplumbtoolkit-defaults.css';
+import 'jsplumb/css/jsplumbtoolkit-defaults.css';
 
 // html2canvas
 import html2canvas from 'html2canvas';

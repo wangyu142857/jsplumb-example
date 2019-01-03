@@ -348,3 +348,38 @@ path {
     background-size: 100%;
   }
 }
+
+.demo-groups {
+  .workplace {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+  .group {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ccc;
+    position: absolute;
+    .ep {
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 10px;
+      height: 10px;
+      background: #409eff;
+      border-radius: 5px;
+    }
+    &:hover {
+      >.ep {
+        opacity: 1;
+      }
+    }
+    &.dragHover {
+      >.ep {
+        opacity: 0;
+      }
+    }
+  }
+  
+}

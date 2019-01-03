@@ -1,8 +1,10 @@
 <template>
   <div class="jtk-demo">
-    <div class="jtk-demo-canvas canvas-wide flowchart-demo jtk-surface jtk-surface-nopan" id="canvas">
-
-      <div class="group-container" id="container1" group="one">
+    <div class="jtk-demo-canvas canvas-wide flowchart-demo jtk-surface jtk-surface-nopan"
+         id="canvas">
+      <div class="group-container"
+           id="container1"
+           group="one">
         <div class="title"></div>
         <ul>
           <li>Elements constrained to group (
@@ -12,13 +14,20 @@
           <li>Not droppable (
             <strong>droppable:false</strong>)</li>
         </ul>
-        <div class="del" delete-all></div>
+        <div class="del"
+             delete-all></div>
         <div class="node-collapse"></div>
-        <div id="c1_1" class="w" style="left:30px;top:35px">1.1</div>
-        <div id="c1_2" class="w" style="left:160px;top:140px">1.2</div>
+        <div id="c1_1"
+             class="w"
+             style="left:30px;top:35px">1.1</div>
+        <div id="c1_2"
+             class="w"
+             style="left:160px;top:140px">1.2</div>
       </div>
 
-      <div class="group-container" id="container2" group="two">
+      <div class="group-container"
+           id="container2"
+           group="two">
         <div class="title"></div>
         <ul>
           <li>Elements are reverted on drop outside (
@@ -29,11 +38,17 @@
         </ul>
         <div class="del"></div>
         <div class="node-collapse"></div>
-        <div id="c2_1" class="w" style="left:30px;top:40px">2.1</div>
-        <div id="c2_2" class="w" style="left:150px;top:160px">2.2</div>
+        <div id="c2_1"
+             class="w"
+             style="left:30px;top:40px">2.1</div>
+        <div id="c2_2"
+             class="w"
+             style="left:150px;top:160px">2.2</div>
       </div>
 
-      <div class="group-container" id="container3" group="three">
+      <div class="group-container"
+           id="container3"
+           group="three">
         <div class="title"></div>
         <ul>
           <li>Elements may be dragged outside bounds (
@@ -43,11 +58,17 @@
         </ul>
         <div class="del"></div>
         <div class="node-collapse"></div>
-        <div id="c3_1" class="w" style="left:30px;top:35px">3.1</div>
-        <div id="c3_2" class="w" style="left:80px;top:162px">3.2</div>
+        <div id="c3_1"
+             class="w"
+             style="left:30px;top:35px">3.1</div>
+        <div id="c3_2"
+             class="w"
+             style="left:80px;top:162px">3.2</div>
       </div>
 
-      <div class="group-container" id="container4" group="four">
+      <div class="group-container"
+           id="container4"
+           group="four">
         <div class="title"></div>
         <ul>
           <li>Elements pruned on drop outside (
@@ -55,13 +76,20 @@
           <li>Elements are draggable to other groups</li>
           <li>Deletes group and children</li>
         </ul>
-        <div class="del" delete-all></div>
+        <div class="del"
+             delete-all></div>
         <div class="node-collapse"></div>
-        <div id="c4_1" class="w" style="left:30px;top:35px">4.1</div>
-        <div id="c4_2" class="w" style="left:110px;top:150px">4.2</div>
+        <div id="c4_1"
+             class="w"
+             style="left:30px;top:35px">4.1</div>
+        <div id="c4_2"
+             class="w"
+             style="left:110px;top:150px">4.2</div>
       </div>
 
-      <div class="group-container" id="container5" group="five">
+      <div class="group-container"
+           id="container5"
+           group="five">
         <div class="title"></div>
         <ul>
           <li>Elements orphaned on drop outside (
@@ -73,11 +101,17 @@
         </ul>
         <div class="del"></div>
         <div class="node-collapse"></div>
-        <div id="c5_1" class="w" style="left:30px;top:35px">5.1</div>
-        <div id="c5_2" class="w" style="left:140px;top:130px">5.2</div>
+        <div id="c5_1"
+             class="w"
+             style="left:30px;top:35px">5.1</div>
+        <div id="c5_2"
+             class="w"
+             style="left:140px;top:130px">5.2</div>
       </div>
 
-      <div class="group-container" id="container6" group="six">
+      <div class="group-container"
+           id="container6"
+           group="six">
         <div class="title"></div>
         <ul>
           <li>No connections shown when group collapsed (
@@ -85,26 +119,41 @@
           <li>Elements are draggable to other groups</li>
           <li>Deletes group and children</li>
         </ul>
-        <div class="del" delete-all></div>
+        <div class="del"
+             delete-all></div>
         <div class="node-collapse"></div>
-        <div id="c6_1" class="w" style="left:160px;top:45px">6.1</div>
-        <div id="c6_2" class="w" style="left:30px;top:150px">6.2</div>
+        <div id="c6_1"
+             class="w"
+             style="left:160px;top:45px">6.1</div>
+        <div id="c6_2"
+             class="w"
+             style="left:30px;top:150px">6.2</div>
       </div>
 
-      <div class="group-container" id="container7" group="seven">
+      <div class="group-container"
+           id="container7"
+           group="seven">
         <div class="title"></div>
         <ul>
           <li>Elements are draggable to other groups, using ghost proxy (
             <strong>ghost:true</strong>)</li>
           <li>Deletes group and children</li>
         </ul>
-        <div class="del" delete-all></div>
+        <div class="del"
+             delete-all></div>
         <div class="node-collapse"></div>
-        <div id="c7_1" class="w" style="left:30px;top:35px">7.1</div>
-        <div id="c7_2" class="w" style="left:90px;top:150px">7.2</div>
+        <div id="c7_1"
+             class="w"
+             style="left:30px;top:35px">7.1</div>
+        <div id="c7_2"
+             class="w"
+             style="left:90px;top:150px">7.2</div>
       </div>
 
-      <div class="w" id="standalone" style="left:455px;top:280px" title="drag me into a group. if you want to.">?</div>
+      <div class="w"
+           id="standalone"
+           style="left:455px;top:280px"
+           title="drag me into a group. if you want to.">?</div>
 
       <div class="events">
         <h3>Events</h3>
@@ -116,11 +165,11 @@
 <script>
 export default {
   name: "Groups",
-  data() {
+  data () {
     return {};
   },
-  mounted() {
-    jsPlumb.ready(function() {
+  mounted () {
+    jsPlumb.ready(function () {
       var j = (window.j = jsPlumb.getInstance({
         Container: canvas,
         Connector: "StateMachine",
@@ -128,14 +177,14 @@ export default {
         Anchor: "Center"
       }));
 
-      j.bind("connection", function(p) {
-        p.connection.bind("click", function() {
+      j.bind("connection", function (p) {
+        p.connection.bind("click", function () {
           j.detach(this);
         });
       });
 
       var evts = document.querySelector("#events");
-      var _appendEvent = function(name, detail) {
+      var _appendEvent = function (name, detail) {
         evts.innerHTML =
           "<br/><strong>" +
           name +
@@ -144,22 +193,22 @@ export default {
           "<br/>" +
           evts.innerHTML;
       };
-      j.bind("group:addMember", function(p) {
+      j.bind("group:addMember", function (p) {
         _appendEvent("group:addMember", p.group.id + " - " + p.el.id);
       });
-      j.bind("group:removeMember", function(p) {
+      j.bind("group:removeMember", function (p) {
         _appendEvent("group:removeMember", p.group.id + " - " + p.el.id);
       });
-      j.bind("group:expand", function(p) {
+      j.bind("group:expand", function (p) {
         _appendEvent("group:expand", p.group.id);
       });
-      j.bind("group:collapse", function(p) {
+      j.bind("group:collapse", function (p) {
         _appendEvent("group:collapse", p.group.id);
       });
-      j.bind("group:add", function(p) {
+      j.bind("group:add", function (p) {
         _appendEvent("group:add", p.group.id);
       });
-      j.bind("group:remove", function(p) {
+      j.bind("group:remove", function (p) {
         _appendEvent("group:remove", p.group.id);
       });
 
@@ -268,13 +317,13 @@ export default {
       j.connect({ source: c6_2, target: c7_1 });
 
       // delete group button
-      j.on(canvas, "click", ".del", function() {
+      j.on(canvas, "click", ".del", function () {
         var g = this.parentNode.getAttribute("group");
         j.removeGroup(g, this.getAttribute("delete-all") != null);
       });
 
       // collapse/expand group button
-      j.on(canvas, "click", ".node-collapse", function() {
+      j.on(canvas, "click", ".node-collapse", function () {
         var g = this.parentNode.getAttribute("group"),
           collapsed = j.hasClass(this.parentNode, "collapsed");
 

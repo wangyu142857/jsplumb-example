@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
   &::before,
   &::after {
     box-sizing: border-box;
@@ -33,23 +34,8 @@ body {
 /*滚动条整体*/
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  /*滚动条宽度*/
-}
-
-::-moz-scrollbar {
-  width: 10px;
-  /*滚动条宽度*/
-}
-
-::-o-scrollbar {
-  width: 10px;
-  /*滚动条宽度*/
-}
-
-::-ms-scrollbar {
-  width: 10px;
+  width: 5px;
+  height: 5px;
   /*滚动条宽度*/
 }
 
@@ -57,44 +43,7 @@ body {
   background-color: rgba(22, 39, 67, 0.3);
   /*滑道全部*/
 }
-
-::-moz-scrollbar-track {
-  background-color: rgba(22, 39, 67, 0.3);
-  /*滑道全部*/
-}
-
-::-o-scrollbar-track {
-  background-color: rgba(22, 39, 67, 0.3);
-  /*滑道全部*/
-}
-
-::-ms-scrollbar-track {
-  background-color: rgba(22, 39, 67, 0.3);
-  /*滑道全部*/
-}
-
 ::-webkit-scrollbar-track-piece {
-  background-color: rgba(22, 39, 67, 0.3);
-  /*滑道*/
-  -webkit-border-radius: 4px;
-  /*滑道圆角宽度*/
-}
-
-::-moz-scrollbar-track-piece {
-  background-color: rgba(22, 39, 67, 0.3);
-  /*滑道*/
-  -webkit-border-radius: 4px;
-  /*滑道圆角宽度*/
-}
-
-::-o-scrollbar-track-piece {
-  background-color: rgba(22, 39, 67, 0.3);
-  /*滑道*/
-  -webkit-border-radius: 4px;
-  /*滑道圆角宽度*/
-}
-
-::-ms-scrollbar-track-piece {
   background-color: rgba(22, 39, 67, 0.3);
   /*滑道*/
   -webkit-border-radius: 4px;
@@ -110,92 +59,20 @@ body {
   /*滑动条圆角宽度*/
 }
 
-::-moz-scrollbar-thumb {
-  background-color: #00adfe;
-  /*滑动条表面*/
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  /*滑动条边框*/
-  border-radius: 4px;
-  /*滑动条圆角宽度*/
-}
-
-::-o-scrollbar-thumb {
-  background-color: #00adfe;
-  /*滑动条表面*/
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  /*滑动条边框*/
-  border-radius: 4px;
-  /*滑动条圆角宽度*/
-}
-
-::-ms-scrollbar-thumb {
-  background-color: #00adfe;
-  /*滑动条表面*/
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  /*滑动条边框*/
-  border-radius: 4px;
-  /*滑动条圆角宽度*/
-}
-
 /*横竖滚动条交角*/
-
 ::-webkit-scrollbar-corner {
   background-color: rgba(22, 39, 67, 0.3);
 }
 
-::-moz-scrollbar-corner {
-  background-color: rgba(22, 39, 67, 0.3);
-}
-
-::-o-scrollbar-corner {
-  background-color: rgba(22, 39, 67, 0.3);
-}
-
-::-ms-scrollbar-corner {
-  background-color: rgba(22, 39, 67, 0.3);
-}
-
 /*横竖滚动条交角图案*/
-
 ::-webkit-resizer {
   /*background-image: url(/public/img/resizer-inactive.png);*/
   background-repeat: no-repeat;
   background-position: bottom right;
 }
 
-::-moz-resizer {
-  /*background-image: url(/public/img/resizer-inactive.png);*/
-  background-repeat: no-repeat;
-  background-position: bottom right;
-}
-
-::-o-resizer {
-  /*background-image: url(/public/img/resizer-inactive.png);*/
-  background-repeat: no-repeat;
-  background-position: bottom right;
-}
-
-::-ms-resizer {
-  /*background-image: url(/public/img/resizer-inactive.png);*/
-  background-repeat: no-repeat;
-  background-position: bottom right;
-}
-
 /*鼠标滑过滑动条*/
-
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #00adfe;
-}
-
-::-moz-scrollbar-thumb:hover {
-  background-color: #00adfe;
-}
-
-::-o-scrollbar-thumb:hover {
-  background-color: #00adfe;
-}
-
-::-ms-scrollbar-thumb:hover {
   background-color: #00adfe;
 }
 
@@ -235,6 +112,7 @@ textarea {
 .container {
   width: 100%;
   height: 100%;
+
   .main {
     height: 100%;
     width: 100%;
@@ -243,10 +121,12 @@ textarea {
 
 .template-box {
   padding: 10px 20px;
+
   .header {
     padding: 5px;
     border-bottom: 1px solid #000;
     font-size: 16px;
+
     .add {
       float: right;
       font-size: 20px;
@@ -254,25 +134,31 @@ textarea {
       cursor: pointer;
     }
   }
+
   .template-list {
     padding: 5px;
     color: #000;
   }
+
   .item {
     line-height: 35px;
     cursor: pointer;
     color: #545c64;
     font-size: 14px;
+
     &.active {
       color: #409EFF;
     }
+
     &:hover {
       color: #409EFF;
     }
+
     a {
       text-decoration: none;
       color: #545c64;
       font-size: 14px;
+
       &:hover {
         color: #409EFF;
       }
@@ -286,6 +172,7 @@ textarea {
   right: 220px;
   z-index: 999999;
 }
+
 .btn-save-img {
   position: absolute;
   top: 70px;
@@ -297,8 +184,10 @@ textarea {
   .chart-dot {
     opacity: 0;
   }
+
   .chart-dot-hover {
     opacity: 1;
+
     circle {
       fill: #00adfe;
     }
