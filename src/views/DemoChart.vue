@@ -1,12 +1,19 @@
 <template>
-  <el-container class="container" id="work-container">
+  <el-container class="container"
+                id="work-container">
     <el-aside width="200px">
       <div class="template-box">
         <div class="header">模板列表
-          <i class="el-icon-circle-plus-outline add" title="新建" @click="handleClickTemp()"></i>
+          <i class="el-icon-circle-plus-outline add"
+             title="新建"
+             @click="handleClickTemp()"></i>
         </div>
         <ul class="template-list">
-          <li class="item" :class="{'active':item.isActive}" v-for="item in templateList" :key="item.key" @click="handleClickTemp(item.key)">
+          <li class="item"
+              :class="{'active':item.isActive}"
+              v-for="item in templateList"
+              :key="item.key"
+              @click="handleClickTemp(item.key)">
             {{item.name}}
             <!-- <router-link to="/demo-chart/fir"></router-link> -->
           </li>
@@ -14,22 +21,43 @@
       </div>
     </el-aside>
     <el-main>
-      <el-button class="btn-save" @click="saveChart" type="success">保存</el-button>
-      <el-button class="btn-save-img" @click="saveChartImg" type="info">保存为图片</el-button>
-      <div class="workplace" id="workplace">
+      <el-button class="btn-save"
+                 @click="saveChart"
+                 type="success">保存</el-button>
+      <el-button class="btn-save-img"
+                 @click="saveChartImg"
+                 type="info">保存为图片</el-button>
+      <div class="workplace"
+           id="workplace">
         <!-- <div class="workplace-chart" id="start">
           <i class="el-icon-loading circle"></i>
           <span>开始</span>
           <div class="ep"></div>
         </div> -->
-        <chart-node v-for="(item, idx) in chartData.nodes" v-bind="item" :key="idx" @edit="editNode(item,idx)"></chart-node>
+        <template v-for="(item, idx) in chartData.nodes">
+          <chart-group v-if="item.type === 'group'"
+                       v-bind="item"
+                       :key="idx"
+                       @resize="resizeGroup"></chart-group>
+          <chart-node v-else
+                      v-bind="item"
+                      :key="idx"
+                      @edit="editNode(item,idx)"></chart-node>
+        </template>
       </div>
     </el-main>
     <el-aside width="200px">
-      <div class="box-card" v-for="(item,idx) in list" :key="idx">
+      <div class="box-card"
+           v-for="(item,idx) in list"
+           :key="idx">
         <div class="header">模块{{idx+1}}</div>
         <div class="card-body">
-          <div class="item" v-for="(item2,idx2) in item" :key="idx2" :data-icon="item2.icon" :data-text="item2.name" :data-type="item2.type">
+          <div class="item"
+               v-for="(item2,idx2) in item"
+               :key="idx2"
+               :data-icon="item2.icon"
+               :data-text="item2.name"
+               :data-type="item2.type">
             <i :class="[item2.icon,item2.type]"></i>
             <span class="text">{{item2.name}}</span>
 
@@ -39,53 +67,75 @@
     </el-aside>
 
     <!-- 模型保存弹出层 -->
-    <el-dialog title="智能模型保存" :visible.sync="dialogFormVisible">
-      <el-form :model="chartForm" ref="chartForm" :label-width="formLabelWidth">
+    <el-dialog title="智能模型保存"
+               :visible.sync="dialogFormVisible">
+      <el-form :model="chartForm"
+               ref="chartForm"
+               :label-width="formLabelWidth">
         <el-form-item label="模型名称">
-          <el-input v-model="chartForm.name" auto-complete="off" placeholder="请输入模型名称"></el-input>
+          <el-input v-model="chartForm.name"
+                    auto-complete="off"
+                    placeholder="请输入模型名称"></el-input>
         </el-form-item>
         <el-form-item label="批注内容">
-          <el-input type="textarea" :autosize="true" v-model="chartForm.msg" auto-complete="off" placeholder="请输入模型批注内容"></el-input>
+          <el-input type="textarea"
+                    :autosize="true"
+                    v-model="chartForm.msg"
+                    auto-complete="off"
+                    placeholder="请输入模型批注内容"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer"
+           class="dialog-footer">
         <el-button @click="cancelSave">取 消</el-button>
-        <el-button type="primary" @click="submitSave">确 定</el-button>
+        <el-button type="primary"
+                   @click="submitSave">确 定</el-button>
       </div>
     </el-dialog>
 
     <!-- 节点属性设置弹出层 -->
     <el-dialog :visible.sync="dialogFormVisible2">
       <div slot="title">属性设置</div>
-      <el-form :model="nodeForm" ref="nodeForm" :label-width="formLabelWidth">
+      <el-form :model="nodeForm"
+               ref="nodeForm"
+               :label-width="formLabelWidth">
         <el-form-item label="开始时间">
-          <el-date-picker v-model="nodeForm.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="nodeForm.startTime"
+                          type="datetime"
+                          placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间">
-          <el-date-picker v-model="nodeForm.endTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="nodeForm.endTime"
+                          type="datetime"
+                          placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="最小出现天数">
-          <el-input v-model="nodeForm.minDays" placeholder="请输入最小出现天数" style="width:100px"></el-input>
+          <el-input v-model="nodeForm.minDays"
+                    placeholder="请输入最小出现天数"
+                    style="width:100px"></el-input>
           <span>（请输入大于0的整数）</span>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="saveNodeEdit">确 定</el-button>
+          <el-button type="primary"
+                     @click="saveNodeEdit">确 定</el-button>
           <el-button @click="cancelSaveNodeEdit">取 消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
 
-    <div id="canvasDiv" style='display: none;'></div>
+    <div id="canvasDiv"
+         style='display: none;'></div>
 
   </el-container>
 </template>
 
 <script>
 import ChartNode from "@/components/ChartNode";
+import ChartGroup from "@/components/ChartGroup";
 // import html2canvas from "html2canvas";
 export default {
   name: "DemoChart",
-  data() {
+  data () {
     return {
       dialogFormVisible: false,
       dialogFormVisible2: false,
@@ -113,47 +163,54 @@ export default {
         [
           {
             icon: "el-icon-menu",
-            name: "伴随车牌",
+            name: "节点1-1",
             type: "diamond"
           },
           {
             icon: "el-icon-star-on",
-            name: "常住人口筛选",
+            name: "节点1-2",
             type: "diamond"
           },
           {
             icon: "el-icon-location",
-            name: "伴随imsi",
+            name: "节点1-3",
             type: "diamond"
           }
         ],
         [
           {
             icon: "el-icon-date",
-            name: "差集",
+            name: "节点2-1",
             type: "diamond"
           },
           {
             icon: "el-icon-time",
-            name: "交集",
+            name: "节点2-2",
             type: "diamond"
           },
           {
             icon: "el-icon-bell",
-            name: "并集",
+            name: "节点2-3",
             type: "diamond"
           }
         ],
         [
           {
             icon: "el-icon-tickets",
-            name: "外部excel",
+            name: "节点3-1",
             type: "circle"
           },
           {
             icon: "el-icon-upload",
             name: "结束",
             type: "circle"
+          }
+        ],
+        [
+          {
+            icon: "el-icon-more",
+            name: "组",
+            type: "group"
           }
         ]
       ],
@@ -176,7 +233,7 @@ export default {
       }
     };
   },
-  mounted() {
+  mounted () {
     const _self = this;
 
     jsPlumb.ready(() => {
@@ -213,11 +270,20 @@ export default {
       // });
 
       // 监听 connection 事件
-      instance.bind("connection", function(info) {
+      instance.bind("connection", function (info) {
         // info.connection.getOverlay("label").setLabel(info.connection.id);
       });
+      // 连接线删除时触发
+      instance.bind("connectionDetached", function (connection) {
+        console.log(connection)
+        _self.chartData.connections.forEach((conn, idx) => {
+          if (connection.sourceId === conn.sourceId && connection.targetId === conn.targetId) {
+            _self.chartData.connections.splice(idx, 1)
+          }
+        });
+      });
       // 监听拖动connection 事件，判断是否有重复链接
-      instance.bind("beforeDrop", function(info) {
+      instance.bind("beforeDrop", function (info) {
         // info.connection.getOverlay("label").setLabel(info.connection.id);
         console.log(info);
         // 判断是否已有该连接
@@ -242,6 +308,30 @@ export default {
         return isSame;
       });
 
+      instance.bind("group:addMember", function (p) {
+        console.log(p)
+        if (p.el.id === 'start') {
+          _self.$message.warning('开始节点不能拖入组中！')
+          instance.removeFromGroup(p.el);
+        }
+        instance.deleteConnectionsForElement(p.el)
+      });
+      instance.bind("group:removeMember", function (p) {
+        console.log(p)
+      });
+      instance.bind("group:expand", function (p) {
+        console.log(p)
+      });
+      instance.bind("group:collapse", function (p) {
+        console.log(p)
+      });
+      instance.bind("group:add", function (p) {
+        console.log(p)
+      });
+      instance.bind("group:remove", function (p) {
+        console.log(p)
+      });
+
       // bind a double click listener to "canvas"; add new node when this occurs.
       // jsPlumb.on(canvas, "dblclick", function(e) {
       //   newNode(e.offsetX, e.offsetY);
@@ -254,27 +344,8 @@ export default {
       });
       $("#workplace").droppable({
         scope: "plant",
-        drop: function(ev, ui) {
-          console.log(ev, ui);
+        drop: function (ev, ui) {
 
-          // let id = "item" + new Date().getTime();
-          // let type = ui.helper.attr("data-key");
-          // let html = `<div id="${id}" class="workplace-chart">${ui.helper.html()}<b class="ep"></b></div>`;
-
-          // $(this).append(html);
-          // $("#" + id).css({
-          //   top: ui.position.top - 60 + "px",
-          //   left: ui.position.left - 200 + "px"
-          // });
-          // initNode($("#" + id));
-          /* let d = document.createElement("div");
-          let id = jsPlumbUtil.uuid();
-          d.className = "workplace-chart";
-          d.id = id;
-          d.innerHTML = ui.helper.html() + '<div class="ep"></div>';
-          d.style.top = ui.position.top - 60 + "px";
-          d.style.left = ui.position.left - 200 + "px";
-          instance.getContainer().appendChild(d); */
           let helper = ui.helper;
           let id = jsPlumbUtil.uuid();
           let item = {
@@ -290,75 +361,30 @@ export default {
 
           _self.chartData.nodes.push(item);
           _self.$nextTick(() => {
-            initNode(id);
+            _self.initNode(id);
+            if (item.type === 'group') {
+              instance.addGroup({
+                el: document.getElementById(id), // 必须为 dom对象
+                id: 'g_' + id,
+                droppable: true,
+                dropOptions: {
+                  drop: function (p) {
+                    console.log(p)
+                    return true;
+                  },
+                },
+                orphan: true,
+              })
+              jsPlumb.fire("jsPlumbDemoGroupAdded", instance);
+            }
           });
         }
       });
 
-      //
-      // initialise element as connection targets and source.
-      //
-      var initNode = function(el) {
-        // initialise draggable elements.
-        // 元素拖动，基于 katavorio.js 插件
-        instance.draggable(el, {
-          // containment: true,
-          start(params) {
-            // 拖动开始
-            // console.log(params);
-          },
-          drag(params) {
-            // 拖动中
-            // console.log(params);
-          },
-          stop(params) {
-            // 拖动结束
-            console.log(params);
-            let id = params.el.id;
-            _self.chartData.nodes.forEach(item => {
-              if (item.id === id) {
-                item.nodeStyle.left = params.pos[0] + "px";
-                item.nodeStyle.top = params.pos[1] + "px";
-              }
-            });
-          }
-        });
-
-        instance.makeSource(el, {
-          filter: ".ep",
-          // anchor: "Continuous",
-          anchor: ["Perimeter", { shape: "Rectangle" }],
-          connectorStyle: {
-            stroke: "#5c96bc",
-            strokeWidth: 2,
-            outlineStroke: "transparent",
-            outlineWidth: 4
-          },
-          extract: {
-            action: "the-action"
-          },
-          maxConnections: -1,
-          onMaxConnections: function(info, e) {
-            alert("Maximum connections (" + info.maxConnections + ") reached");
-          }
-        });
-
-        instance.makeTarget(el, {
-          dropOptions: { hoverClass: "dragHover" },
-          anchor: ["Perimeter", { shape: "Rectangle" }],
-          allowLoopback: false
-        });
-
-        // this is not part of the core demo functionality; it is a means for the Toolkit edition's wrapped
-        // version of this demo to find out about new nodes being added.
-        //
-        instance.fire("jsPlumbDemoNodeAdded", el);
-      };
-
       // 暂停渲染，执行以下操作
       instance.batch(() => {
         jsPlumb.getSelector(".workplace-chart").forEach(item => {
-          initNode(item);
+          _self.initNode(item);
         });
       });
       jsPlumb.fire("jsPlumbDemoLoaded", instance);
@@ -366,30 +392,35 @@ export default {
   },
   methods: {
     // 初始化node节点
-    initNode(el) {
+    initNode (el) {
       // initialise draggable elements.
       // 元素拖动，基于 katavorio.js 插件
       let _self = this;
       this.jsp.draggable(el, {
+        filter: ".resize",
         // containment: true,
-        start(params) {
+        start (params) {
           // 拖动开始
           // console.log(params);
         },
-        drag(params) {
+        drag (params) {
           // 拖动中
           // console.log(params);
         },
-        stop(params) {
+        stop (params) {
           // 拖动结束
           console.log(params);
           let id = params.el.id;
-          _self.chartData.nodes.forEach(item => {
-            if (item.id === id) {
-              item.nodeStyle.left = params.pos[0] + "px";
-              item.nodeStyle.top = params.pos[1] + "px";
-            }
-          });
+          _self.$nextTick(() => {
+            let top = params.el.style.top
+            let left = params.el.style.left
+            _self.chartData.nodes.forEach(item => {
+              if (item.id === id) {
+                item.nodeStyle.left = left;
+                item.nodeStyle.top = top;
+              }
+            });
+          })
         }
       });
 
@@ -407,7 +438,7 @@ export default {
           action: "the-action"
         },
         maxConnections: -1,
-        onMaxConnections: function(info, e) {
+        onMaxConnections: function (info, e) {
           alert("Maximum connections (" + info.maxConnections + ") reached");
         }
       });
@@ -424,7 +455,7 @@ export default {
       this.jsp.fire("jsPlumbDemoNodeAdded", el);
     },
     // 保存
-    saveChart() {
+    saveChart () {
       this.dialogFormVisible = true;
       // console.log(this.jsp.getConnections());
       console.log(this.chartData);
@@ -433,7 +464,7 @@ export default {
     /**
      * @description 取消保存
      */
-    cancelSave() {
+    cancelSave () {
       this.dialogFormVisible = false;
       this.chartForm = {
         name: "",
@@ -441,7 +472,7 @@ export default {
       };
       this.$message.info("已取消保存");
     },
-    submitSave() {
+    submitSave () {
       this.dialogFormVisible = false;
       this.chartData.props = this.chartForm;
       this.$message.success("保存成功");
@@ -450,7 +481,7 @@ export default {
      * @description 模板点击事件
      * @param {String} key 模板关键值
      */
-    handleClickTemp(key) {
+    handleClickTemp (key) {
       this.chartData = {
         nodes: [],
         connections: [],
@@ -514,13 +545,24 @@ export default {
      * @param {Object} item 节点当前数据
      * @param {Number} idx 下标
      */
-    editNode(item, idx) {
+    editNode (item, idx) {
       this.dialogFormVisible2 = true;
+    },
+    /**
+     * @description 触发节点缩放事件
+     * @param {Object} item 节点当前数据
+     * @param {Number} idx 下标
+     */
+    resizeGroup (el) {
+      console.log(el)
+      this.$nextTick(() => {
+        this.jsp.repaintEverything()
+      })
     },
     /**
      * @description 节点编辑保存
      */
-    saveNodeEdit() {
+    saveNodeEdit () {
       // 验证表单
       if (this.verifyNodeForm()) {
         this.$message.success("保存成功");
@@ -530,7 +572,7 @@ export default {
     /**
      * @description 节点保存验证
      */
-    verifyNodeForm() {
+    verifyNodeForm () {
       console.log(this.nodeForm);
       let flag = false;
       if (this.nodeForm.startTime === "") {
@@ -556,31 +598,31 @@ export default {
     /**
      * @description 取消保存
      */
-    cancelSaveNodeEdit() {
+    cancelSaveNodeEdit () {
       this.dialogFormVisible2 = false;
     },
     /**
      * @description 保存为图片
      */
-    saveChartImg() {
+    saveChartImg () {
       var statemachinediv = document.getElementById("workplace");
 
       html2canvas(statemachinediv, {
-        onrendered: function(canvas) {
+        onrendered: function (canvas) {
           console.log(canvas);
 
           $("#canvasDiv").empty();
           document.getElementById("canvasDiv").appendChild(canvas);
           var svgList = $(statemachinediv).find("svg");
 
-          svgList.each(function(index, value) {
+          svgList.each(function (index, value) {
             try {
               var svgExample = this;
 
               var serializer = new XMLSerializer();
               var svgMarkup = serializer.serializeToString(svgExample);
               console.log(svgMarkup);
-              
+
 
               if (svgMarkup.indexOf("_jsPlumb_connector") > -1) {
                 var leftIndex = svgMarkup.indexOf("left: ");
@@ -618,7 +660,7 @@ export default {
             .toDataURL("image/png")
             .replace("image/png", "image/octet-stream");
           // window.location.href=image; // it will save locally
-          var saveFile = function(data, filename) {
+          var saveFile = function (data, filename) {
             var save_link = document.createElementNS(
               "http://www.w3.org/1999/xhtml",
               "a"
@@ -659,14 +701,15 @@ export default {
     console.log(to, from, next);
   }, */
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       console.log(to, from);
 
       // 对路由变化作出响应...
     }
   },
   components: {
-    ChartNode
+    ChartNode,
+    ChartGroup
   }
 };
 </script>
@@ -679,6 +722,14 @@ export default {
 #start {
   top: 50px;
   left: 50px;
+}
+.group-demo {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: #ccc;
+  top: 250px;
+  left: 300px;
 }
 </style>
 

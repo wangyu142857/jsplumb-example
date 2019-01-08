@@ -356,8 +356,8 @@ path {
     overflow: auto;
   }
   .group {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border: 1px solid #ccc;
     position: absolute;
     .ep {
@@ -379,6 +379,7 @@ path {
       >.ep {
         opacity: 0;
       }
+      
     }
   }
   

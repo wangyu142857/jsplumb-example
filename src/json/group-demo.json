@@ -15,7 +15,7 @@
       "top": "387px",
       "left": "160px"
     },
-    "text": "伴随车牌",
+    "text": "节点",
     "type": "diamond"
   },
   {
@@ -25,7 +25,7 @@
       "top": "620px",
       "left": "160px"
     },
-    "text": "伴随imsi",
+    "text": "节点",
     "type": "diamond"
   },
   {
@@ -35,7 +35,7 @@
       "top": "387px",
       "left": "481px"
     },
-    "text": "差集",
+    "text": "节点",
     "type": "diamond"
   },
   {
