@@ -307,6 +307,14 @@ jsPlumb.addGroup({
     endpoint:[ "Rectangle", { width:10, height:10 } ]
 });
 ```
+### Event 事件
+- group:add 添加 回调函数参数 {group:Group}
+- group:remove 移除  回调函数参数 {group:Group}
+- group:addMember 新增子元素  回调函数参数 {group:Group, el:Element, [sourceGroup]:Group}
+- group:removeMember 移除子元素  回调函数参数 {group:Group, el:Element, [sourceGroup]:Group}
+- group:collapse 折叠  回调函数参数 {group:Group}
+- group:expand 展开 回调函数参数 {group:Group}
+---
 ### methods
 - addToGroup(group, el) 添加
 - removeGromGroup(el) 移除 

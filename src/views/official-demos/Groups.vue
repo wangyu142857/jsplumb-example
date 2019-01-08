@@ -194,6 +194,7 @@ export default {
           evts.innerHTML;
       };
       j.bind("group:addMember", function (p) {
+        console.log(p)
         _appendEvent("group:addMember", p.group.id + " - " + p.el.id);
       });
       j.bind("group:removeMember", function (p) {
@@ -241,6 +242,11 @@ export default {
         el: container2,
         id: "two",
         dropOverride: true,
+        dropOptions: {
+          drop(p) {
+            console.log(p)
+          }
+        },
         endpoint: ["Dot", { radius: 3 }]
       }); //(the default is to revert)
       j.addToGroup("two", c2_1);
