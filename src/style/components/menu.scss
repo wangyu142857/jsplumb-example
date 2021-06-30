@@ -1,0 +1,14 @@
+.app-menu {
+  padding-bottom: 20px;
+  .el-menu-item {
+    box-sizing: border-box;
+    &.is-active {
+      background: #fff;
+    }
+  }
+  .menu-icon {
+    width: 18px;
+    text-align: center;
+    margin-right: 5px;
+  }
+}
