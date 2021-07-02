@@ -2,6 +2,7 @@
   <el-container class="container">
     <el-header>
       <span class="title">Jsplumb Admin</span>
+      <i class="el-icon-edit" />
     </el-header>
     <el-container>
       <el-aside width="250px">

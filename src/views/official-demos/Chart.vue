@@ -1,93 +1,128 @@
 <template>
   <div class="jtk-demo">
-    <div class="jtk-demo-canvas canvas-wide chart-demo jtk-surface jtk-surface-nopan" id="canvas">
-      <div class="window" id="chartWindow1">window one</div>
-      <div class="window" id="chartWindow2">window two</div>
-      <div class="window" id="chartWindow3">window three</div>
-      <div class="window" id="chartWindow4">window four</div>
-      <div class="window" id="chartWindow5">window five</div>
-      <div class="window" id="chartWindow6">window six</div>
+    <div
+      id="canvas"
+      class="jtk-demo-canvas canvas-wide chart-demo jtk-surface jtk-surface-nopan"
+    >
+      <div
+        id="chartWindow1"
+        class="window"
+      >
+        window one
+      </div>
+      <div
+        id="chartWindow2"
+        class="window"
+      >
+        window two
+      </div>
+      <div
+        id="chartWindow3"
+        class="window"
+      >
+        window three
+      </div>
+      <div
+        id="chartWindow4"
+        class="window"
+      >
+        window four
+      </div>
+      <div
+        id="chartWindow5"
+        class="window"
+      >
+        window five
+      </div>
+      <div
+        id="chartWindow6"
+        class="window"
+      >
+        window six
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { jsPlumb } from 'jsplumb';
+
 export default {
-  name: "Chart",
+  name: 'Chart',
   data() {
     return {};
   },
   mounted() {
-    jsPlumb.ready(function() {
-      var color = "gray";
+    jsPlumb.ready(() => {
+      const color = 'gray';
 
-      var instance = jsPlumb.getInstance({
-        // notice the 'curviness' argument to this Bezier curve.  the curves on this page are far smoother
+      const instance = jsPlumb.getInstance({
+        // notice the 'curviness' argument to this Bezier curve.
         // than the curves on the first demo, which use the default curviness value.
-        Connector: ["Bezier", { curviness: 50 }],
-        DragOptions: { cursor: "pointer", zIndex: 2000 },
+        Connector: ['Bezier', { curviness: 50 }],
+        DragOptions: { cursor: 'pointer', zIndex: 2000 },
         PaintStyle: { stroke: color, strokeWidth: 2 },
         EndpointStyle: { radius: 9, fill: color },
-        HoverPaintStyle: { stroke: "#ec9f2e" },
-        EndpointHoverStyle: { fill: "#ec9f2e" },
-        Container: "canvas"
+        HoverPaintStyle: { stroke: '#ec9f2e' },
+        EndpointHoverStyle: { fill: '#ec9f2e' },
+        Container: 'canvas',
       });
 
       // suspend drawing and initialise.
-      instance.batch(function() {
+      instance.batch(() => {
         // declare some common values:
-        var arrowCommon = { foldback: 0.7, fill: color, width: 14 },
-          // use three-arg spec to create two different arrows with the common values:
-          overlays = [
-            ["Arrow", { location: 0.7 }, arrowCommon],
-            ["Arrow", { location: 0.3, direction: -1 }, arrowCommon]
-          ];
+        const arrowCommon = { foldback: 0.7, fill: color, width: 14 };
+        // use three-arg spec to create two different arrows with the common values:
+        const overlays = [
+          ['Arrow', { location: 0.7 }, arrowCommon],
+          ['Arrow', { location: 0.3, direction: -1 }, arrowCommon],
+        ];
 
         // add endpoints, giving them a UUID.
         // you DO NOT NEED to use this method. You can use your library's selector method.
         // the jsPlumb demos use it so that the code can be shared between all three libraries.
-        var windows = jsPlumb.getSelector(".chart-demo .window");
-        for (var i = 0; i < windows.length; i++) {
+        const windows = jsPlumb.getSelector('.chart-demo .window');
+        for (let i = 0; i < windows.length; i++) {
           instance.addEndpoint(windows[i], {
-            uuid: windows[i].getAttribute("id") + "-bottom",
-            anchor: "Bottom",
-            maxConnections: -1
+            uuid: `${windows[i].getAttribute('id')}-bottom`,
+            anchor: 'Bottom',
+            maxConnections: -1,
           });
           instance.addEndpoint(windows[i], {
-            uuid: windows[i].getAttribute("id") + "-top",
-            anchor: "Top",
-            maxConnections: -1
+            uuid: `${windows[i].getAttribute('id')}-top`,
+            anchor: 'Top',
+            maxConnections: -1,
           });
         }
 
         instance.connect({
-          uuids: ["chartWindow3-bottom", "chartWindow6-top"],
-          overlays: overlays,
+          uuids: ['chartWindow3-bottom', 'chartWindow6-top'],
+          overlays,
           detachable: true,
-          reattach: true
+          reattach: true,
         });
         instance.connect({
-          uuids: ["chartWindow1-bottom", "chartWindow2-top"],
-          overlays: overlays
+          uuids: ['chartWindow1-bottom', 'chartWindow2-top'],
+          overlays,
         });
         instance.connect({
-          uuids: ["chartWindow1-bottom", "chartWindow3-top"],
-          overlays: overlays
+          uuids: ['chartWindow1-bottom', 'chartWindow3-top'],
+          overlays,
         });
         instance.connect({
-          uuids: ["chartWindow2-bottom", "chartWindow4-top"],
-          overlays: overlays
+          uuids: ['chartWindow2-bottom', 'chartWindow4-top'],
+          overlays,
         });
         instance.connect({
-          uuids: ["chartWindow2-bottom", "chartWindow5-top"],
-          overlays: overlays
+          uuids: ['chartWindow2-bottom', 'chartWindow5-top'],
+          overlays,
         });
 
         instance.draggable(windows);
       });
 
-      jsPlumb.fire("jsPlumbDemoLoaded", instance);
+      jsPlumb.fire('jsPlumbDemoLoaded', instance);
     });
-  }
+  },
 };
 </script>
 

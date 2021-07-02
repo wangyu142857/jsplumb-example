@@ -1,9 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-// official-demos
-// import routeOfficial from './route-official';
-// my-demos
-// import routeDemos from './route-demo';
 
+import routeOfficial from './route-official'; // official-demos
+
+// import.meta.globEager 替换 webpack require.context
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -16,46 +15,20 @@ const router = createRouter({
           path: '/layout',
           component: () => import('@/views/HelloWorld.vue'),
         },
+        ...routeOfficial,
+        // {
+        //   path: '/layout/demos/drag-to-workplace',
+        //   name: 'DragToWorkplace',
+        //   component: () => import('@/views/DragToWorkplace.vue'),
+        // },
+        // {
+        //   path: '/layout/demos/demo-chart',
+        //   name: 'DemoChart',
+        //   component: () => import('@/views/DemoChart.vue'),
+        // },
       ],
     },
   ],
 });
 
 export default router;
-
-// // DragToWorkplace
-// import DragToWorkplace from '@/views/DragToWorkplace'
-// import DemoChart from '@/views/DemoChart'
-
-// Vue.use(Router)
-
-// export default new Router({
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'HelloWorld',
-//       component: HelloWorld
-//     },
-//     // official-demos
-//     ...routeOfficial,
-//     // my-demos
-//     ...routeDemos,
-//     // demos
-//     {
-//       path: '/drag-to-workplace',
-//       name: 'DragToWorkplace',
-//       component: DragToWorkplace
-//     },
-//     {
-//       path: '/demo-chart',
-//       name: 'DemoChart',
-//       component: DemoChart,
-//       /* children: [
-//         {
-//           path:''
-//         }
-//       ] */
-//     }
-
-//   ]
-// })

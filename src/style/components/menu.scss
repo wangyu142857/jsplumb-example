@@ -1,9 +1,23 @@
 .app-menu {
   padding-bottom: 20px;
+  border-right: none;
   .el-menu-item {
     box-sizing: border-box;
+    &:hover {
+      color: $blue;
+      background: transparent;
+    }
     &.is-active {
-      background: #fff;
+      color: $blue;
+      background: $blue-light;
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-right: 4px solid $blue;
+      }
     }
   }
   .menu-icon {
