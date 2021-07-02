@@ -1,66 +1,106 @@
 <template>
   <div class="jtk-demo">
-    <div class="jtk-demo-canvas canvas-wide statemachine-demo jtk-surface jtk-surface-nopan" id="canvas">
-      <div class="w" id="opened">BEGIN
-        <div class="ep" action="begin"></div>
+    <div
+      id="canvas"
+      class="jtk-demo-canvas canvas-wide statemachine-demo jtk-surface jtk-surface-nopan"
+    >
+      <div
+        id="opened"
+        class="w"
+      >
+        BEGIN
+        <div
+          class="ep"
+          action="begin"
+        />
       </div>
-      <div class="w" id="phone1">PHONE INTERVIEW 1
-        <div class="ep" action="phone1"></div>
+      <div
+        id="phone1"
+        class="w"
+      >
+        PHONE INTERVIEW 1
+        <div
+          class="ep"
+          action="phone1"
+        />
       </div>
-      <div class="w" id="phone2">PHONE INTERVIEW 2
-        <div class="ep" action="phone2"></div>
+      <div
+        id="phone2"
+        class="w"
+      >
+        PHONE INTERVIEW 2
+        <div
+          class="ep"
+          action="phone2"
+        />
       </div>
-      <div class="w" id="inperson">IN PERSON
-        <div class="ep" action="inperson"></div>
+      <div
+        id="inperson"
+        class="w"
+      >
+        IN PERSON
+        <div
+          class="ep"
+          action="inperson"
+        />
       </div>
-      <div class="w" id="rejected">REJECTED
-        <div class="ep" action="rejected"></div>
+      <div
+        id="rejected"
+        class="w"
+      >
+        REJECTED
+        <div
+          class="ep"
+          action="rejected"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
+import { jsPlumb } from 'jsplumb';
+
 export default {
-  name: "StateMachine",
+  name: 'StateMachine',
   data() {
     return {};
   },
   mounted() {
-    jsPlumb.ready(function() {
+    jsPlumb.ready(() => {
       // setup some defaults for jsPlumb.
-      var instance = jsPlumb.getInstance({
-        Endpoint: ["Dot", { radius: 2 }],
-        Connector: "StateMachine",
-        HoverPaintStyle: { stroke: "#1e8151", strokeWidth: 2 },
+      const instance = jsPlumb.getInstance({
+        Endpoint: ['Dot', { radius: 2 }],
+        Connector: 'StateMachine',
+        HoverPaintStyle: { stroke: '#1e8151', strokeWidth: 2 },
         ConnectionOverlays: [
           [
-            "Arrow",
+            'Arrow',
             {
               location: 1,
-              id: "arrow",
+              id: 'arrow',
               length: 14,
-              foldback: 0.8
-            }
+              foldback: 0.8,
+            },
           ],
-          ["Label", { label: "FOO", id: "label", cssClass: "aLabel" }]
+          ['Label', { label: 'FOO', id: 'label', cssClass: 'aLabel' }],
         ],
-        Container: "canvas"
+        Container: 'canvas',
       });
 
-      instance.registerConnectionType("basic", {
-        anchor: "Continuous",
-        connector: "StateMachine"
+      instance.registerConnectionType('basic', {
+        anchor: 'Continuous',
+        connector: 'StateMachine',
       });
 
       window.jsp = instance;
 
-      var canvas = document.getElementById("canvas");
-      var windows = jsPlumb.getSelector(".statemachine-demo .w");
+      const canvas = document.getElementById('canvas');
+      const windows = jsPlumb.getSelector('.statemachine-demo .w');
 
       // bind a click listener to each connection; the connection is deleted. you could of course
       // just do this: instance.bind("click", instance.deleteConnection), but I wanted to make it clear what was
       // happening.
-      instance.bind("click", function(c) {
+      instance.bind('click', (c) => {
         instance.deleteConnection(c);
       });
 
@@ -68,90 +108,90 @@ export default {
       // just the new connection - see the documentation for a full list of what is included in 'info'.
       // this listener sets the connection's internal
       // id as the label overlay's text.
-      instance.bind("connection", function(info) {
-        info.connection.getOverlay("label").setLabel(info.connection.id);
+      instance.bind('connection', (info) => {
+        info.connection.getOverlay('label').setLabel(info.connection.id);
       });
 
       // bind a double click listener to "canvas"; add new node when this occurs.
-      jsPlumb.on(canvas, "dblclick", function(e) {
+      jsPlumb.on(canvas, 'dblclick', (e) => {
         newNode(e.offsetX, e.offsetY);
       });
 
       //
       // initialise element as connection targets and source.
       //
-      var initNode = function(el) {
+      const initNode = function (el) {
         // initialise draggable elements.
         instance.draggable(el);
 
         instance.makeSource(el, {
-          filter: ".ep",
-          anchor: "Continuous",
+          filter: '.ep',
+          anchor: 'Continuous',
           connectorStyle: {
-            stroke: "#5c96bc",
+            stroke: '#5c96bc',
             strokeWidth: 2,
-            outlineStroke: "transparent",
-            outlineWidth: 4
+            outlineStroke: 'transparent',
+            outlineWidth: 4,
           },
-          connectionType: "basic",
+          connectionType: 'basic',
           extract: {
-            action: "the-action"
+            action: 'the-action',
           },
           maxConnections: 2,
-          onMaxConnections: function(info, e) {
-            alert("Maximum connections (" + info.maxConnections + ") reached");
-          }
+          onMaxConnections(info, e) {
+            alert(`Maximum connections (${info.maxConnections}) reached`);
+          },
         });
 
         instance.makeTarget(el, {
-          dropOptions: { hoverClass: "dragHover" },
-          anchor: "Continuous",
-          allowLoopback: true
+          dropOptions: { hoverClass: 'dragHover' },
+          anchor: 'Continuous',
+          allowLoopback: true,
         });
 
         // this is not part of the core demo functionality; it is a means for the Toolkit edition's wrapped
         // version of this demo to find out about new nodes being added.
         //
-        instance.fire("jsPlumbDemoNodeAdded", el);
+        instance.fire('jsPlumbDemoNodeAdded', el);
       };
 
-      var newNode = function(x, y) {
-        var d = document.createElement("div");
-        var id = jsPlumbUtil.uuid();
-        d.className = "w";
+      var newNode = function (x, y) {
+        const d = document.createElement('div');
+        const id = jsPlumbUtil.uuid();
+        d.className = 'w';
         d.id = id;
-        d.innerHTML = id.substring(0, 7) + '<div class="ep"></div>';
-        d.style.left = x + "px";
-        d.style.top = y + "px";
+        d.innerHTML = `${id.substring(0, 7)}<div class="ep"></div>`;
+        d.style.left = `${x}px`;
+        d.style.top = `${y}px`;
         instance.getContainer().appendChild(d);
         initNode(d);
         return d;
       };
 
       // suspend drawing and initialise.
-      instance.batch(function() {
-        for (var i = 0; i < windows.length; i++) {
+      instance.batch(() => {
+        for (let i = 0; i < windows.length; i++) {
           initNode(windows[i], true);
         }
         // and finally, make a few connections
-        instance.connect({ source: "opened", target: "phone1", type: "basic" });
-        instance.connect({ source: "phone1", target: "phone1", type: "basic" });
+        instance.connect({ source: 'opened', target: 'phone1', type: 'basic' });
+        instance.connect({ source: 'phone1', target: 'phone1', type: 'basic' });
         instance.connect({
-          source: "phone1",
-          target: "inperson",
-          type: "basic"
+          source: 'phone1',
+          target: 'inperson',
+          type: 'basic',
         });
 
         instance.connect({
-          source: "phone2",
-          target: "rejected",
-          type: "basic"
+          source: 'phone2',
+          target: 'rejected',
+          type: 'basic',
         });
       });
 
-      jsPlumb.fire("jsPlumbDemoLoaded", instance);
+      jsPlumb.fire('jsPlumbDemoLoaded', instance);
     });
-  }
+  },
 };
 </script>
 

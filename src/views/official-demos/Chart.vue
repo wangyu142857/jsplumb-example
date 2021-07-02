@@ -44,8 +44,9 @@
   </div>
 </template>
 <script>
-import { jsPlumb } from 'jsplumb';
+import all, { jsPlumb } from 'jsplumb';
 
+console.log(all);
 export default {
   name: 'Chart',
   data() {

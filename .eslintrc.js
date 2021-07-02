@@ -18,6 +18,7 @@ module.exports = {
   rules: {
     'linebreak-style': ['off', 'windows'],
     'no-plusplus': 'off',
+    'max-len': 'off',
   },
   settings: {
     'import/resolver': {

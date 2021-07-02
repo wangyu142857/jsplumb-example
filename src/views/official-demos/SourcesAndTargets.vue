@@ -1,57 +1,103 @@
 <template>
   <div class="jtk-demo">
-    <div class="jtk-demo-canvas canvas-wide source-target-demo jtk-surface jtk-surface-nopan" id="canvas">
-      <div class="window" id="sourceWindow1">
+    <div
+      id="canvas"
+      class="jtk-demo-canvas canvas-wide source-target-demo jtk-surface jtk-surface-nopan"
+    >
+      <div
+        id="sourceWindow1"
+        class="window"
+      >
         <strong>Window 1</strong>
-        <a href="#" id="enableDisableSource">disable</a>
+        <a
+          id="enableDisableSource"
+          href="#"
+        >disable</a>
       </div>
-      <div class="window smallWindow" id="targetWindow2">
+      <div
+        id="targetWindow2"
+        class="window smallWindow"
+      >
         <strong>Window 2</strong>
-        <a href="#" class="enableDisableTarget">disable</a><br/><br/></div>
-      <div class="window smallWindow" id="targetWindow3">
+        <a
+          href="#"
+          class="enableDisableTarget"
+        >disable</a><br><br>
+      </div>
+      <div
+        id="targetWindow3"
+        class="window smallWindow"
+      >
         <strong>Window 3</strong>
-        <a href="#" class="enableDisableTarget">disable</a><br/><br/></div>
-      <div class="window smallWindow" id="targetWindow4">
+        <a
+          href="#"
+          class="enableDisableTarget"
+        >disable</a><br><br>
+      </div>
+      <div
+        id="targetWindow4"
+        class="window smallWindow"
+      >
         <strong>Window 4</strong>
-        <a href="#" class="enableDisableTarget">disable</a><br/><br/></div>
-      <div class="window smallWindow" id="targetWindow5">
+        <a
+          href="#"
+          class="enableDisableTarget"
+        >disable</a><br><br>
+      </div>
+      <div
+        id="targetWindow5"
+        class="window smallWindow"
+      >
         <strong>Window 5</strong>
-        <a href="#" class="enableDisableTarget">disable</a><br/><br/></div>
-      <div class="window smallWindow" id="targetWindow6">
+        <a
+          href="#"
+          class="enableDisableTarget"
+        >disable</a><br><br>
+      </div>
+      <div
+        id="targetWindow6"
+        class="window smallWindow"
+      >
         <strong>Window 6</strong>
-        <a href="#" class="enableDisableTarget">disable</a><br/><br/></div>
+        <a
+          href="#"
+          class="enableDisableTarget"
+        >disable</a><br><br>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { jsPlumb } from 'jsplumb';
+
 export default {
-  name: "SourcesAndTargets",
+  name: 'SourcesAndTargets',
   data() {
     return {};
   },
   mounted() {
     jsPlumb.ready(() => {
       // list of possible anchor locations for the blue source element
-      var sourceAnchors = [
+      const sourceAnchors = [
         [0, 1, 0, 1],
         [0.25, 1, 0, 1],
         [0.5, 1, 0, 1],
         [0.75, 1, 0, 1],
-        [1, 1, 0, 1]
+        [1, 1, 0, 1],
       ];
 
-      var instance = (window.instance = jsPlumb.getInstance({
+      const instance = (window.instance = jsPlumb.getInstance({
         // drag options
-        DragOptions: { cursor: "pointer", zIndex: 2000 },
+        DragOptions: { cursor: 'pointer', zIndex: 2000 },
         // default to a gradient stroke from blue to green.
         PaintStyle: {
           gradient: {
-            stops: [[0, "#0d78bc"], [1, "#558822"]]
+            stops: [[0, '#0d78bc'], [1, '#558822']],
           },
-          stroke: "#558822",
-          strokeWidth: 10
+          stroke: '#558822',
+          strokeWidth: 10,
         },
-        Container: "canvas"
+        Container: 'canvas',
       }));
 
       // click listener for the enable/disable link in the source box (the blue one).
@@ -88,44 +134,44 @@ export default {
       ); */
 
       // bind to a connection event, just for the purposes of pointing out that it can be done.
-      instance.bind("connection", function(i, c) {
-        console.log("connection", i.connection);
+      instance.bind('connection', (i, c) => {
+        console.log('connection', i.connection);
       });
 
       // get the list of ".smallWindow" elements.
-      var smallWindows = jsPlumb.getSelector(".smallWindow");
+      const smallWindows = jsPlumb.getSelector('.smallWindow');
       // make them draggable
       instance.draggable(smallWindows, {
-        filter: ".enableDisableTarget"
+        filter: '.enableDisableTarget',
       });
 
       // suspend drawing and initialise.
-      instance.batch(function() {
+      instance.batch(() => {
         // make 'window1' a connection source. notice the filter and filterExclude parameters: they tell jsPlumb to ignore drags
         // that started on the 'enable/disable' link on the blue window.
-        instance.makeSource("sourceWindow1", {
-          filter: "a",
+        instance.makeSource('sourceWindow1', {
+          filter: 'a',
           filterExclude: true,
           maxConnections: -1,
-          endpoint: ["Dot", { radius: 7, cssClass: "small-blue" }],
-          anchor: sourceAnchors
+          endpoint: ['Dot', { radius: 7, cssClass: 'small-blue' }],
+          anchor: sourceAnchors,
         });
 
         // configure the .smallWindows as targets.
         instance.makeTarget(smallWindows, {
-          dropOptions: { hoverClass: "hover" },
-          anchor: "Top",
-          endpoint: ["Dot", { radius: 11, cssClass: "large-green" }]
+          dropOptions: { hoverClass: 'hover' },
+          anchor: 'Top',
+          endpoint: ['Dot', { radius: 11, cssClass: 'large-green' }],
         });
 
         // and finally connect a couple of small windows, just so its obvious what's going on when this demo loads.
-        instance.connect({ source: "sourceWindow1", target: "targetWindow5" });
-        instance.connect({ source: "sourceWindow1", target: "targetWindow2" });
+        instance.connect({ source: 'sourceWindow1', target: 'targetWindow5' });
+        instance.connect({ source: 'sourceWindow1', target: 'targetWindow2' });
       });
 
-      jsPlumb.fire("jsPlumbDemoLoaded", instance);
+      jsPlumb.fire('jsPlumbDemoLoaded', instance);
     });
-  }
+  },
 };
 </script>
 

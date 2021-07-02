@@ -1,169 +1,185 @@
 <template>
-  <el-container class="container" id="work-container">
-
+  <el-container
+    id="work-container"
+    class="container"
+  >
     <el-aside width="200px">
       <div class="box-card">
-        <div class="header">模块一</div>
+        <div class="header">
+          模块一
+        </div>
         <div class="card-body">
-          <div class="item" v-for="(item,i) in list" :key="item">
-            <i class="chart-item" :class="item" :data-key="item">{{i}}</i>
+          <div
+            v-for="(item,i) in list"
+            :key="item"
+            class="item"
+          >
+            <i
+              class="chart-item"
+              :class="item"
+              :data-key="item"
+            >{{ i }}</i>
           </div>
         </div>
       </div>
     </el-aside>
     <el-main>
-      <div class="workplace" id="workplace">
-      </div>
+      <div
+        id="workplace"
+        class="workplace"
+      />
     </el-main>
-
   </el-container>
 </template>
 
 <script>
+import { jsPlumb } from 'jsplumb';
+
 export default {
-  name: "DragToWorkplace",
+  name: 'DragToWorkplace',
   data() {
     return {
-      list: ["circle", "diamond", "ellipse", "rectangle"]
+      list: ['circle', 'diamond', 'ellipse', 'rectangle'],
     };
   },
   mounted() {
-    jsPlumb.ready(function() {
+    jsPlumb.ready(() => {
       // 默认配置
-      let instance = jsPlumb.getInstance({
+      const instance = jsPlumb.getInstance({
         // drag options
-        DragOptions: { cursor: "pointer", zIndex: 2000 },
+        DragOptions: { cursor: 'pointer', zIndex: 2000 },
         // overlays
         ConnectionOverlays: [
           [
-            "Arrow",
+            'Arrow',
             {
               location: 1,
               visible: true,
               width: 11,
               height: 11,
-              id: "Arrow"
-            }
+              id: 'Arrow',
+            },
           ],
           [
-            "Label",
+            'Label',
             {
               location: 0.1,
-              id: "Label",
-              cssClass: "arrow-label",
+              id: 'Label',
+              cssClass: 'arrow-label',
               events: {
                 tap() {
-                  console.log("Label");
-                }
-              }
-            }
-          ]
+                  console.log('Label');
+                },
+              },
+            },
+          ],
         ],
-        Container: "workplace"
+        Container: 'workplace',
       });
       // 连接线默认样式
-      let connectorPaintStyle = {
+      const connectorPaintStyle = {
         strokeWidth: 2,
-        stroke: "#61B7CF",
-        joinstyle: "round",
-        outlineStroke: "white",
-        outlineWidth: 2
+        stroke: '#61B7CF',
+        joinstyle: 'round',
+        outlineStroke: 'white',
+        outlineWidth: 2,
       };
       // hover style.
-      let connectorHoverStyle = {
+      const connectorHoverStyle = {
         strokeWidth: 3,
-        stroke: "#216477",
+        stroke: '#216477',
         outlineWidth: 5,
-        outlineStroke: "white"
+        outlineStroke: 'white',
       };
-      let endpointHoverStyle = {
-        fill: "#216477",
-        stroke: "#216477"
+      const endpointHoverStyle = {
+        fill: '#216477',
+        stroke: '#216477',
       };
       // source endpoints
-      let sourceEndpoint = {
-        endpoint: "Dot",
+      const sourceEndpoint = {
+        endpoint: 'Dot',
         paintStyle: {
-          stroke: "#7AB02C",
-          fill: "transparent",
+          stroke: '#7AB02C',
+          fill: 'transparent',
           radius: 7,
-          strokeWidth: 1
+          strokeWidth: 1,
         },
         isSource: true,
         connector: [
-          "Flowchart",
+          'Flowchart',
           {
             stub: [40, 60],
             gap: 10,
             cornerRadius: 5,
-            alwaysRespectStubs: true
-          }
+            alwaysRespectStubs: true,
+          },
         ],
         connectorStyle: connectorPaintStyle,
         hoverPaintStyle: endpointHoverStyle,
-        connectorHoverStyle: connectorHoverStyle,
+        connectorHoverStyle,
         dragOptions: {},
         overlays: [
           [
-            "Label",
+            'Label',
             {
               location: [0.5, 1.5],
-              label: "Drag",
-              cssClass: "endpointSourceLabel",
-              visible: false
-            }
-          ]
-        ]
+              label: 'Drag',
+              cssClass: 'endpointSourceLabel',
+              visible: false,
+            },
+          ],
+        ],
       };
       // target endpoints
-      let targetEndpoint = {
-        endpoint: "Dot",
-        paintStyle: { fill: "#7AB02C", radius: 7 },
+      const targetEndpoint = {
+        endpoint: 'Dot',
+        paintStyle: { fill: '#7AB02C', radius: 7 },
         hoverPaintStyle: endpointHoverStyle,
         maxConnections: -1,
-        dropOptions: { hoverClass: "hover", activeClass: "active" },
+        dropOptions: { hoverClass: 'hover', activeClass: 'active' },
         isTarget: true,
         overlays: [
           [
-            "Label",
+            'Label',
             {
               location: [0.5, -0.5],
-              label: "Drop",
-              cssClass: "endpointTargetLabel",
-              visible: false
-            }
-          ]
-        ]
+              label: 'Drop',
+              cssClass: 'endpointTargetLabel',
+              visible: false,
+            },
+          ],
+        ],
       };
-      let init = function(connection) {
+      const init = function (connection) {
         console.log(connection);
 
-        connection.getOverlay("label").setLabel("123");
+        connection.getOverlay('label').setLabel('123');
       };
-      let addEndpoints = function(toId, sourceAnchors, targetAnchors) {
+      const addEndpoints = function (toId, sourceAnchors, targetAnchors) {
         console.log(toId, sourceAnchors, targetAnchors);
 
-        for (var i = 0; i < sourceAnchors.length; i++) {
-          var sourceUUID = toId + sourceAnchors[i];
+        for (let i = 0; i < sourceAnchors.length; i++) {
+          const sourceUUID = toId + sourceAnchors[i];
           instance.addEndpoint(toId, sourceEndpoint, {
             anchor: sourceAnchors[i],
-            uuid: sourceUUID
+            uuid: sourceUUID,
           });
         }
-        for (var j = 0; j < targetAnchors.length; j++) {
-          var targetUUID = toId + targetAnchors[j];
+        for (let j = 0; j < targetAnchors.length; j++) {
+          const targetUUID = toId + targetAnchors[j];
           instance.addEndpoint(toId, targetEndpoint, {
             anchor: targetAnchors[j],
             // anchor: 'Continuous',
-            uuid: targetUUID
+            uuid: targetUUID,
           });
         }
       };
 
       // 暂停渲染，执行以下操作
-      instance.batch(function() {
+      instance.batch(() => {
         // listen for new connections;
-        instance.bind("connection", function(connInfo, originalEvent) {
+        // eslint-disable-next-line no-unused-vars
+        instance.bind('connection', (connInfo, originalEvent) => {
           init(connInfo.connection);
         });
         /* // make all the window divs draggable
@@ -172,57 +188,58 @@ export default {
         }); */
 
         // listen for clicks on connections, and offer to delete connections on click.
-        instance.bind("click", function(conn, originalEvent) {
+        // eslint-disable-next-line no-unused-vars
+        instance.bind('click', (conn, originalEvent) => {
           // if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
           //   instance.detach(conn);
           // conn.toggleType("basic");
         });
 
-        instance.bind("connectionDrag", function(connection) {
+        instance.bind('connectionDrag', (connection) => {
           console.log(
-            "connection " +
-              connection.id +
-              " is being dragged. suspendedElement is ",
+            `connection ${
+              connection.id
+            } is being dragged. suspendedElement is `,
             connection.suspendedElement,
-            " of type ",
-            connection.suspendedElementType
+            ' of type ',
+            connection.suspendedElementType,
           );
         });
 
-        instance.bind("connectionDragStop", function(connection) {
-          console.log("connection " + connection.id + " was dragged");
+        instance.bind('connectionDragStop', (connection) => {
+          console.log(`connection ${connection.id} was dragged`);
         });
 
-        instance.bind("connectionMoved", function(params) {
-          console.log("connection " + params.connection.id + " was moved");
+        instance.bind('connectionMoved', (params) => {
+          console.log(`connection ${params.connection.id} was moved`);
         });
       });
       // 将模块拖入画板中
-      $(".box-card .chart-item").draggable({
-        scope: "plant",
-        helper: "clone",
-        containment: $("#work-container")
+      $('.box-card .chart-item').draggable({
+        scope: 'plant',
+        helper: 'clone',
+        containment: $('#work-container'),
       });
-      $("#workplace").droppable({
-        scope: "plant",
-        drop: function(ev, ui) {
+      $('#workplace').droppable({
+        scope: 'plant',
+        drop(ev, ui) {
           console.log(ev, ui);
 
-          let id = "item" + new Date().getTime();
+          const id = `item${new Date().getTime()}`;
 
-          let html = `<div id="${id}" class="chart-item ${ui.helper.attr(
-            "data-key"
+          const html = `<div id="${id}" class="chart-item ${ui.helper.attr(
+            'data-key',
           )}">${ui.helper.html()}</div>`;
 
           $(this).append(html);
-          $("#" + id).css({
-            top: ui.position.top - 60 + "px",
-            left: ui.position.left - 200 + "px"
+          $(`#${id}`).css({
+            top: `${ui.position.top - 60}px`,
+            left: `${ui.position.left - 200}px`,
           });
           addEndpoints(
             id,
-            ["RightMiddle", "BottomCenter"],
-            ["LeftMiddle", "TopCenter"]
+            ['RightMiddle', 'BottomCenter'],
+            ['LeftMiddle', 'TopCenter'],
           );
 
           /* jsPlumb.addEndpoint(id, { anchors: "TopCenter" });
@@ -234,16 +251,16 @@ export default {
             containment: "parent"
           }); */
           instance.draggable(id, {
-            grid: [1, 1]
+            grid: [1, 1],
             // containment: true
           });
-        }
+        },
       });
 
-      jsPlumb.fire("jsPlumbDemoLoaded", instance);
+      jsPlumb.fire('jsPlumbDemoLoaded', instance);
     });
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">
@@ -253,5 +270,3 @@ export default {
   position: relative;
 }
 </style>
-
-
